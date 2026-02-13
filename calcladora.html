@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLM Calculadora</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+body{
+background:radial-gradient(circle at 20% 20%, #0f2b2f, #05060d 60%);
+color:#fff;
+padding:40px 15px;
+}
+
+.wrapper{max-width:480px;margin:auto;}
+
+.container{
+padding:30px;
+border-radius:22px;
+background:linear-gradient(145deg,#0a0c18,#05060d);
+box-shadow:0 0 0 1px rgba(255,255,255,.05),0 0 40px rgba(0,255,170,.08),inset 0 0 25px rgba(255,255,255,.02);
+position:relative;
+}
+
+/* BORDA ANIMADA */
+.container::before{
+content:"";
+position:absolute;
+inset:0;
+padding:1px;
+border-radius:22px;
+background:linear-gradient(120deg,#00ffa3,#5f9bff,#00ffa3);
+-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+-webkit-mask-composite:xor;
+mask-composite:exclude;
+animation:borderGlow 6s linear infinite;
+pointer-events:none;
+}
+
+@keyframes borderGlow{
+100%{filter:hue-rotate(360deg)}
+}
+
+/* HEADER */
+
+.top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.logo{display:flex;align-items:center;gap:6px;}
+
+.glm{font-size:40px;font-weight:700;letter-spacing:2px;}
+.studio{
+writing-mode:vertical-rl;
+transform:rotate(180deg);
+font-size:13px;
+color:#00ffa3;
+letter-spacing:3px;
+font-weight:600;
+}
+
+.title{font-size:18px;opacity:.8;}
+
+/* PREÇO */
+
+.priceBox{text-align:center;margin-bottom:25px;}
+
+.priceLabel{opacity:.6;margin-bottom:5px;font-size:14px;}
+
+.price{
+font-size:54px;
+font-weight:700;
+background:linear-gradient(90deg,#5f9bff,#00ffa3);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+/* GRID */
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+}
+
+@media(max-width:520px){
+.grid{grid-template-columns:1fr;}
+.full{grid-column:auto;}
+}
+
+/* CAMPOS */
+
+.field{
+background:#0b0f22;
+padding:14px;
+border-radius:14px;
+box-shadow:inset 0 0 15px rgba(0,0,0,.7),0 0 10px rgba(0,255,170,.03);
+}
+
+.field label{
+font-size:13px;
+opacity:.7;
+display:block;
+margin-bottom:7px;
+}
+
+.field input{
+width:100%;
+padding:12px;
+border:none;
+outline:none;
+background:#04060f;
+border-radius:10px;
+color:#fff;
+font-size:15px;
+}
+
+.full{grid-column:1/3;}
+
+/* BOTÕES */
+
+.buttons{
+display:flex;
+gap:12px;
+margin-top:25px;
+}
+
+button{
+flex:1;
+padding:15px;
+border:none;
+border-radius:14px;
+font-size:15px;
+font-weight:600;
+cursor:pointer;
+transition:.25s;
+}
+
+.calc{
+background:linear-gradient(90deg,#00ffa3,#5f9bff);
+color:#021;
+}
+
+.reset{
+background:#111827;
+color:#fff;
+border:1px solid rgba(255,255,255,.08);
+}
+
+button:hover{
+transform:scale(1.03);
+}
+
+/* RESULTADO */
+
+.result{
+margin-top:25px;
+background:#050813;
+border-radius:16px;
+padding:18px;
+box-shadow: inset 0 0 20px rgba(0,0,0,.8);
+}
+
+.metric{
+display:flex;
+justify-content:space-between;
+margin:10px 0;
+font-size:15px;
+}
+
+.metric span:last-child{
+color:#00ffa3;
+font-weight:600;
+}
+
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+<div class="container">
+
+<!-- HEADER -->
+<div class="top">
+<div class="logo">
+<div class="glm">GLM</div>
+<div class="studio">STUDIO</div>
+</div>
+<div class="title">Calculadora de Preço</div>
+</div>
+
+<!-- PREÇO -->
+<div class="priceBox">
+<div class="priceLabel">Preço sugerido</div>
+<div class="price" id="preco">R$ 0,00</div>
+</div>
+
+<!-- CAMPOS -->
+<div class="grid">
+
+<div class="field"><label>Filamento R$/kg</label><input id="filamento" type="number"></div>
+<div class="field"><label>Peso (g)</label><input id="peso" type="number"></div>
+
+<div class="field"><label>Tempo (h)</label><input id="tempo" type="number"></div>
+<div class="field"><label>Potência (W)</label><input id="potencia" type="number"></div>
+
+<div class="field"><label>Tarifa energia</label><input id="energia" type="number" value="0.55"></div>
+<div class="field"><label>Perda %</label><input id="perda" type="number" value="0"></div>
+
+<div class="field full"><label>Embalagem</label><input id="embalagem" type="number"></div>
+<div class="field full"><label>Mão obra</label><input id="mao" type="number"></div>
+<div class="field full"><label>Outros custos</label><input id="outros" type="number"></div>
+<div class="field full"><label>Manutenção</label><input id="manut" type="number"></div>
+<div class="field full"><label>Margem lucro %</label><input id="margem" type="number" value="100"></div>
+
+</div>
+
+<!-- BOTÕES -->
+<div class="buttons">
+<button class="calc" onclick="calcular()">Calcular</button>
+<button class="reset" onclick="resetar()">Reset</button>
+</div>
+
+<!-- RESULTADOS -->
+<div class="result">
+
+<div class="metric"><span>Custo total</span><span id="custo">R$ 0,00</span></div>
+<div class="metric"><span>Energia</span><span id="energiaKwh">0 kWh</span></div>
+<div class="metric"><span>Lucro</span><span id="lucro">R$ 0,00</span></div>
+
+</div>
+
+</div>
+</div>
+
+<script>
+
+function v(id){return Number(document.getElementById(id).value)||0}
+
+function calcular(){
+
+let material=(v("filamento")/1000)*v("peso")
+let energiaKwh=(v("potencia")*v("tempo"))/1000
+let energia=energiaKwh*v("energia")
+
+let subtotal=material+energia+v("embalagem")+v("mao")+v("outros")+v("manut")
+subtotal+=subtotal*(v("perda")/100)
+
+let total=subtotal*(1+(v("margem")/100))
+let lucro=total-subtotal
+
+preco.innerText="R$ "+total.toFixed(2).replace(".",",")
+custo.innerText="R$ "+subtotal.toFixed(2).replace(".",",")
+energiaKwhSpan=energiaKwh.toFixed(2)+" kWh"
+document.getElementById("energiaKwh").innerText=energiaKwhSpan
+lucroSpan="R$ "+lucro.toFixed(2).replace(".",",")
+document.getElementById("lucro").innerText=lucroSpan
+
+}
+
+function resetar(){
+
+let inputs=document.querySelectorAll("input")
+
+inputs.forEach(i=>{
+if(i.id!="energia") i.value=""
+})
+
+preco.innerText="R$ 0,00"
+custo.innerText="R$ 0,00"
+energiaKwh.innerText="0 kWh"
+lucro.innerText="R$ 0,00"
+
+}
+
+</script>
+
+</body>
+</html>
