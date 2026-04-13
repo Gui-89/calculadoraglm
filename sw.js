@@ -2,7 +2,7 @@ const CACHE_NAME = 'glm-calc-v1';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
-  './LOGO.png',
+  './img/LOGO.png',
   './manifest.json',
   'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js',
   'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap'
