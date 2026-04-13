@@ -3,320 +3,618 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GLM Calculadora</title>
+<title>GLM Calculadora Pro</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<!-- MELHORIA 1: SheetJS para exportação .xlsx real -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 
 body{
-background:radial-gradient(circle at 20% 20%, #0f2b2f, #05060d 60%);
-color:#fff;
-padding:40px 15px;
+  background:radial-gradient(circle at 20% 20%, #0f2b2f, #05060d 60%);
+  color:#fff;
+  padding:40px 15px;
 }
 
 .wrapper{max-width:520px;margin:auto;}
 
 .container{
-padding:30px;
-border-radius:22px;
-background:linear-gradient(145deg,#0a0c18,#05060d);
-box-shadow:0 0 0 1px rgba(255,255,255,.05),
-0 0 40px rgba(0,255,170,.08),
-inset 0 0 25px rgba(255,255,255,.02);
-position:relative;
+  padding:30px;
+  border-radius:22px;
+  background:linear-gradient(145deg,#0a0c18,#05060d);
+  box-shadow:0 0 0 1px rgba(255,255,255,.05),
+             0 0 40px rgba(0,255,170,.08),
+             inset 0 0 25px rgba(255,255,255,.02);
+  position:relative;
+  margin-bottom:20px;
 }
 
 .container::before{
-content:"";
-position:absolute;
-inset:0;
-padding:1px;
-border-radius:22px;
-background:linear-gradient(120deg,#00ffa3,#5f9bff,#00ffa3);
--webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
--webkit-mask-composite:xor;
-mask-composite:exclude;
-animation:borderGlow 6s linear infinite;
-pointer-events:none;
+  content:"";
+  position:absolute;
+  inset:0;
+  padding:1px;
+  border-radius:22px;
+  background:linear-gradient(120deg,#00ffa3,#5f9bff,#00ffa3);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  animation:borderGlow 6s linear infinite;
+  pointer-events:none;
 }
 
-@keyframes borderGlow{
-100%{filter:hue-rotate(360deg)}
-}
+@keyframes borderGlow{100%{filter:hue-rotate(360deg)}}
 
-/* HEADER */
 .top{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:25px;
-gap:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px;
+  gap:10px;
 }
 
 .logo img{
-height:90px;
-width:auto;
-max-width:100%;
-object-fit:contain;
-filter:drop-shadow(0 0 8px rgba(0,255,170,.5));
+  height:90px;
+  width:auto;
+  max-width:100%;
+  object-fit:contain;
+  filter:drop-shadow(0 0 8px rgba(0,255,170,.5));
 }
 
-.title{
-font-size:18px;
-opacity:.8;
-text-align:right;
-line-height:1.2;
-}
+.title{font-size:18px;opacity:.8;text-align:right;line-height:1.2;}
 
-/* PREÇO EDITÁVEL */
-.priceBox{text-align:center;margin-bottom:25px;}
+/* MELHORIA 8: wrapper do preço com botão de copiar */
+.priceBox{text-align:center;margin-bottom:25px;position:relative;}
 .priceLabel{opacity:.6;margin-bottom:5px;font-size:14px;}
 
-.priceInput{
-font-size:48px;
-font-weight:700;
-text-align:center;
-width:100%;
-padding:10px;
-border:none;
-border-radius:12px;
-background:#04060f;
-color:#00ffa3;
+.priceInputWrapper{
+  position:relative;
+  display:inline-block;
+  width:100%;
 }
 
-/* GRID */
+.priceInput{
+  font-size:48px;
+  font-weight:700;
+  text-align:center;
+  width:100%;
+  padding:10px 50px 10px 10px;
+  border:none;
+  border-radius:12px;
+  background:#04060f;
+  color:#00ffa3;
+  outline:none;
+}
+
+.copy-btn{
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  background:none;
+  border:none;
+  cursor:pointer;
+  font-size:20px;
+  opacity:.5;
+  transition:.2s;
+  padding:4px;
+  flex:unset;
+}
+.copy-btn:hover{opacity:1;transform:translateY(-50%) scale(1.2);}
+
+/* MELHORIA 3: toast de feedback */
+.toast{
+  position:fixed;
+  bottom:30px;
+  left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:#00ffa3;
+  color:#000;
+  padding:10px 22px;
+  border-radius:30px;
+  font-weight:600;
+  font-size:14px;
+  opacity:0;
+  transition:opacity .3s, transform .3s;
+  pointer-events:none;
+  z-index:999;
+  white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
 .grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:14px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
 }
 
 @media(max-width:520px){
-.grid{grid-template-columns:1fr;}
-.full{grid-column:auto;}
-.logo img{height:70px;}
+  .grid{grid-template-columns:1fr;}
+  .full{grid-column:auto;}
+  .logo img{height:70px;}
 }
 
-.field{
-background:#0b0f22;
-padding:12px;
-border-radius:12px;
-}
-
-.field label{
-font-size:12px;
-opacity:.7;
-display:block;
-margin-bottom:6px;
-}
-
+.field{background:#0b0f22;padding:12px;border-radius:12px;}
+.field label{font-size:12px;opacity:.7;display:block;margin-bottom:6px;}
 .field input{
-width:100%;
-padding:10px;
-border:none;
-outline:none;
-background:#04060f;
-border-radius:8px;
-color:#fff;
+  width:100%;
+  padding:10px;
+  border:none;
+  outline:none;
+  background:#04060f;
+  border-radius:8px;
+  color:#fff;
+  transition:border .2s;
+}
+
+/* MELHORIA 9: campo inválido */
+.field input.invalid{
+  box-shadow:0 0 0 2px #ff5f5f;
 }
 
 .full{grid-column:1/3;}
 
 .buttons{
-display:flex;
-gap:10px;
-margin-top:20px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:20px;
 }
+
+.row-btns{display:flex;gap:10px;}
 
 button{
-flex:1;
-padding:12px;
-border:none;
-border-radius:12px;
-cursor:pointer;
-font-weight:600;
+  flex:1;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:600;
+  transition:.3s;
 }
 
-.calc{background:linear-gradient(90deg,#00ffa3,#5f9bff);}
+.calc{background:linear-gradient(90deg,#00ffa3,#5f9bff);color:#000;}
 .reset{background:#111827;color:#fff;}
+.save-btn{background:#5f9bff;color:#fff;}
+.export-btn{background:#22c55e;color:#fff;margin-top:5px;}
+
+button:hover{opacity:.8;transform:translateY(-2px);}
 
 .result{
-margin-top:25px;
-background:#050813;
-border-radius:14px;
-padding:15px;
+  margin-top:25px;
+  background:#050813;
+  border-radius:14px;
+  padding:15px;
 }
 
 .sectionTitle{
-margin-top:12px;
-font-size:13px;
-opacity:.6;
-border-top:1px solid rgba(255,255,255,.08);
-padding-top:8px;
+  margin-top:12px;
+  font-size:13px;
+  opacity:.6;
+  border-top:1px solid rgba(255,255,255,.08);
+  padding-top:8px;
+  margin-bottom:8px;
+  text-transform:uppercase;
+  letter-spacing:1px;
 }
 
 .metric{
-display:flex;
-justify-content:space-between;
-margin:6px 0;
-font-size:14px;
+  display:flex;
+  justify-content:space-between;
+  margin:6px 0;
+  font-size:14px;
 }
 
 .metric span:last-child{color:#00ffa3;}
+
+/* MELHORIA 6: lucro negativo em vermelho */
+.metric span.negative{color:#ff5f5f !important;}
+
+/* HISTÓRICO */
+.history-section{
+  margin-top:30px;
+  background:rgba(10,12,24,.8);
+  border-radius:18px;
+  padding:20px;
+  border:1px solid rgba(255,255,255,.05);
+}
+
+.table-container{overflow-x:auto;}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+  font-size:13px;
+}
+
+th{text-align:left;opacity:.5;padding:10px 5px;font-weight:300;}
+td{padding:12px 5px;border-top:1px solid rgba(255,255,255,0.05);vertical-align:middle;}
+
+.del-btn{
+  background:none;
+  border:none;
+  color:#ff5f5f;
+  cursor:pointer;
+  font-size:16px;
+  flex:unset;
+  padding:0;
+}
+
+/* MELHORIA 5: botão editar histórico */
+.edit-btn{
+  background:none;
+  border:none;
+  color:#5f9bff;
+  cursor:pointer;
+  font-size:16px;
+  flex:unset;
+  padding:0;
+  margin-right:6px;
+}
+
+.action-cell{display:flex;align-items:center;gap:4px;}
+
+/* badge de edição ativa */
+.editing-badge{
+  display:none;
+  text-align:center;
+  background:rgba(95,155,255,.15);
+  border:1px solid #5f9bff;
+  color:#5f9bff;
+  border-radius:8px;
+  padding:6px;
+  font-size:12px;
+  margin-top:10px;
+}
+.editing-badge.active{display:block;}
 </style>
 </head>
 <body>
 
+<div class="toast" id="toast"></div>
+
 <div class="wrapper">
-<div class="container">
+  <div class="container">
+    <div class="top">
+      <div class="logo">
+        <img src="img/logo.png.png" alt="GLM Studio Logo">
+      </div>
+      <div class="title">Calculadora<br>de Preço</div>
+    </div>
 
-<div class="top">
-<div class="logo">
-<img src="img/logo.png.png" alt="GLM Studio Logo">
-</div>
-<div class="title">Calculadora<br>de Preço</div>
-</div>
+    <!-- MELHORIA 8: botão copiar ao lado do preço -->
+    <div class="priceBox">
+      <div class="priceLabel">Preço sugerido (editável)</div>
+      <div class="priceInputWrapper">
+        <input type="number" id="precoFinal" class="priceInput" value="0">
+        <button class="copy-btn" onclick="copiarPreco()" title="Copiar preço">📋</button>
+      </div>
+    </div>
 
-<div class="priceBox">
-<div class="priceLabel">Preço sugerido (editável)</div>
-<input type="number" id="precoFinal" class="priceInput" value="0">
-</div>
+    <div class="grid">
+      <div class="field full">
+        <label>Identificação do Item</label>
+        <input id="nomeItem" type="text" placeholder="Ex: Luminária Twister 20cm">
+      </div>
 
-<div class="grid">
-<div class="field"><label>Filamento R$/kg</label><input id="filamento" type="number"></div>
-<div class="field"><label>Peso (g)</label><input id="peso" type="number"></div>
-<div class="field"><label>Tempo (h)</label><input id="tempo" type="number"></div>
-<div class="field"><label>Potência (W)</label><input id="potencia" type="number"></div>
-<div class="field"><label>Tarifa energia</label><input id="energia" type="number" value="0.55"></div>
-<div class="field"><label>Perda %</label><input id="perda" type="number" value="0"></div>
+      <div class="field"><label>Filamento R$/kg</label><input id="filamento" type="number" min="0"></div>
+      <div class="field"><label>Peso (g)</label><input id="peso" type="number" min="0"></div>
+      <div class="field"><label>Tempo (h)</label><input id="tempo" type="number" min="0"></div>
+      <div class="field"><label>Potência (W)</label><input id="potencia" type="number" min="0"></div>
+      <div class="field"><label>Tarifa energia</label><input id="energia" type="number" value="0.55" min="0"></div>
+      <div class="field"><label>Perda %</label><input id="perda" type="number" value="0" min="0"></div>
 
-<div class="field full"><label>Embalagem</label><input id="embalagem" type="number"></div>
-<div class="field full"><label>Mão de obra</label><input id="mao" type="number"></div>
-<div class="field full"><label>Outros custos</label><input id="outros" type="number"></div>
-<div class="field full"><label>Manutenção</label><input id="manut" type="number"></div>
+      <div class="field full"><label>Embalagem</label><input id="embalagem" type="number" min="0"></div>
+      <div class="field full"><label>Mão de obra</label><input id="mao" type="number" min="0"></div>
+      <div class="field full"><label>Outros custos</label><input id="outros" type="number" min="0"></div>
+      <div class="field full"><label>Manutenção</label><input id="manut" type="number" min="0"></div>
 
-<div class="field full"><label>Margem lucro %</label><input id="margem" type="number" value="100"></div>
-<div class="field full"><label>Taxa Marketplace %</label><input id="taxaPercentual" type="number" value="0"></div>
-<div class="field full"><label>Taxa Fixa Marketplace (R$)</label><input id="taxaFixa" type="number" value="0"></div>
-</div>
+      <div class="field full"><label>Margem lucro %</label><input id="margem" type="number" value="100" min="0"></div>
+      <div class="field full"><label>Taxa Marketplace %</label><input id="taxaPercentual" type="number" value="0" min="0"></div>
+      <div class="field full"><label>Taxa Fixa Marketplace (R$)</label><input id="taxaFixa" type="number" value="0" min="0"></div>
+    </div>
 
-<div class="buttons">
-<button class="calc" onclick="calcular()">Calcular</button>
-<button class="reset" onclick="resetar()">Reset</button>
-</div>
+    <!-- MELHORIA 5: badge indicando edição de item -->
+    <div class="editing-badge" id="editingBadge">
+      ✏️ Editando item do histórico — clique em <strong>Salvar Precificação</strong> para atualizar.
+    </div>
 
-<div class="result">
+    <div class="buttons">
+      <div class="row-btns">
+        <!-- MELHORIA 7: calcular com Enter via listener no JS -->
+        <button class="calc" onclick="calcular()">Calcular</button>
+        <button class="reset" onclick="resetar()">Reset</button>
+      </div>
+      <button class="save-btn" onclick="salvarNoHistorico()">💾 Salvar Precificação</button>
+    </div>
 
-<div class="sectionTitle">Custos Operacionais</div>
-<div class="metric"><span>Material</span><span id="rMaterial">R$ 0,00</span></div>
-<div class="metric"><span>Energia (R$)</span><span id="rEnergia">R$ 0,00</span></div>
-<div class="metric"><span>Energia (kWh)</span><span id="rEnergiaKwh">0</span></div>
-<div class="metric"><span>Perdas</span><span id="rPerda">R$ 0,00</span></div>
-<div class="metric"><span>Embalagem</span><span id="rEmbalagem">R$ 0,00</span></div>
-<div class="metric"><span>Mão de obra</span><span id="rMao">R$ 0,00</span></div>
-<div class="metric"><span>Outros</span><span id="rOutros">R$ 0,00</span></div>
-<div class="metric"><span>Manutenção</span><span id="rManut">R$ 0,00</span></div>
-<div class="metric"><span><strong>Subtotal</strong></span><span id="rSubtotal">R$ 0,00</span></div>
+    <div class="result">
+      <div class="sectionTitle">Custos Operacionais</div>
+      <div class="metric"><span>Material</span><span id="rMaterial">R$ 0,00</span></div>
+      <div class="metric"><span>Energia</span><span id="rEnergia">R$ 0,00</span></div>
+      <div class="metric"><span>Perdas</span><span id="rPerda">R$ 0,00</span></div>
+      <div class="metric"><span><strong>Subtotal Custos</strong></span><span id="rSubtotal">R$ 0,00</span></div>
 
-<div class="sectionTitle">Marketplace</div>
-<div class="metric"><span>Taxa %</span><span id="rTaxaPercentual">R$ 0,00</span></div>
-<div class="metric"><span>Taxa Fixa</span><span id="rTaxaFixa">R$ 0,00</span></div>
-<div class="metric"><span><strong>Total Taxas</strong></span><span id="rTaxasTotal">R$ 0,00</span></div>
+      <div class="sectionTitle">Resultado Final</div>
+      <div class="metric"><span><strong>Custo Total (Produção + Taxas)</strong></span><span id="rCustoTotalProducao">R$ 0,00</span></div>
+      <!-- MELHORIA 6: lucro com percentual -->
+      <div class="metric"><span>Lucro Líquido</span><span id="rLucroLiquido">R$ 0,00</span></div>
+    </div>
+  </div>
 
-<div class="sectionTitle">Resultado</div>
-
-<!-- NOVO CAMPO ANEXADO -->
-<div class="metric">
-<span><strong>Custo Total de Produção</strong></span>
-<span id="rCustoTotalProducao">R$ 0,00</span>
-</div>
-
-<div class="metric"><span>Lucro Bruto</span><span id="rLucroBruto">R$ 0,00</span></div>
-<div class="metric"><span>Lucro Líquido</span><span id="rLucroLiquido">R$ 0,00</span></div>
-
-</div>
-</div>
+  <div class="history-section">
+    <div class="sectionTitle">Histórico de Itens</div>
+    <div class="table-container">
+      <table id="tabelaHistorico">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Custo</th>
+            <th>Venda</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <!-- MELHORIA 1: exportação real .xlsx via SheetJS -->
+    <button class="export-btn" onclick="exportarExcel()">📊 Exportar para Excel (.xlsx)</button>
+  </div>
 </div>
 
 <script>
-function v(id){return Number(document.getElementById(id).value)||0}
-function f(n){return "R$ "+n.toFixed(2).replace(".",",")}
+// ─── ESTADO DE EDIÇÃO (MELHORIA 5) ───────────────────────────────────────────
+let editingIndex = null;
 
+// ─── UTILITÁRIOS ─────────────────────────────────────────────────────────────
+function v(id){ return Number(document.getElementById(id).value) || 0; }
+
+// MELHORIA 10: separador de milhar no formato moeda
+function f(n){
+  return "R$ " + n.toLocaleString("pt-BR", {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+// MELHORIA 3: toast de feedback
+function showToast(msg, cor){
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.style.background = cor || "#00ffa3";
+  t.style.color = cor ? "#fff" : "#000";
+  t.classList.add("show");
+  setTimeout(()=> t.classList.remove("show"), 2500);
+}
+
+// ─── CÁLCULO PRINCIPAL ───────────────────────────────────────────────────────
 function calcular(){
-let material=(v("filamento")/1000)*v("peso")
-let energiaKwh=(v("potencia")*v("tempo"))/1000
-let energia=energiaKwh*v("energia")
+  // MELHORIA 9: validação dos campos obrigatórios
+  let valido = true;
+  ["filamento","peso"].forEach(id => {
+    const el = document.getElementById(id);
+    if(!Number(el.value)){
+      el.classList.add("invalid");
+      valido = false;
+    } else {
+      el.classList.remove("invalid");
+    }
+  });
+  if(!valido){ showToast("⚠️ Filamento e Peso são obrigatórios!", "#ef4444"); return; }
 
-let base=material+energia+v("embalagem")+v("mao")+v("outros")+v("manut")
-let perdaValor=base*(v("perda")/100)
-let subtotal=base+perdaValor
+  let material  = (v("filamento") / 1000) * v("peso");
+  let energiaKwh = (v("potencia") * v("tempo")) / 1000;
+  let energia   = energiaKwh * v("energia");
+  let base      = material + energia + v("embalagem") + v("mao") + v("outros") + v("manut");
+  let perdaValor= base * (v("perda") / 100);
+  let subtotal  = base + perdaValor;
+  let margemBase= subtotal * (1 + (v("margem") / 100));
+  let taxaPerc  = v("taxaPercentual") / 100;
+  let taxaFixa  = v("taxaFixa");
+  let total     = (margemBase / (1 - taxaPerc)) + taxaFixa;
 
-let margemBase=subtotal*(1+(v("margem")/100))
-let taxaPercentual=v("taxaPercentual")/100
-let taxaFixa=v("taxaFixa")
-
-let total=(margemBase/(1-taxaPercentual))+taxaFixa
-document.getElementById("precoFinal").value=total.toFixed(2)
-
-atualizarResumo()
+  document.getElementById("precoFinal").value = total.toFixed(2);
+  atualizarResumo();
+  salvarFormulario(); // MELHORIA 4
 }
 
 function atualizarResumo(){
+  let preco     = v("precoFinal");
+  let material  = (v("filamento") / 1000) * v("peso");
+  let energiaKwh= (v("potencia") * v("tempo")) / 1000;
+  let energia   = energiaKwh * v("energia");
+  let base      = material + energia + v("embalagem") + v("mao") + v("outros") + v("manut");
+  let perdaValor= base * (v("perda") / 100);
+  let subtotal  = base + perdaValor;
+  let taxasTotal= (preco * (v("taxaPercentual") / 100)) + v("taxaFixa");
+  let custoTotal= subtotal + taxasTotal;
+  let lucro     = preco - custoTotal;
 
-let preco=v("precoFinal")
+  // MELHORIA 6: lucro com % e cor condicional
+  let pct = preco > 0 ? ((lucro / preco) * 100).toFixed(1) : "0.0";
+  const lucroEl = document.getElementById("rLucroLiquido");
+  lucroEl.textContent = f(lucro) + " (" + pct + "%)";
+  lucroEl.className   = lucro < 0 ? "negative" : "";
 
-let material=(v("filamento")/1000)*v("peso")
-let energiaKwh=(v("potencia")*v("tempo"))/1000
-let energia=energiaKwh*v("energia")
-
-let base=material+energia+v("embalagem")+v("mao")+v("outros")+v("manut")
-let perdaValor=base*(v("perda")/100)
-let subtotal=base+perdaValor
-
-let taxaPercentual=v("taxaPercentual")/100
-let taxaFixa=v("taxaFixa")
-
-let taxaPercentualValor=preco*taxaPercentual
-let taxasTotal=taxaPercentualValor+taxaFixa
-
-// NOVO CÁLCULO
-let custoTotalProducao=subtotal+taxasTotal
-
-let lucroBruto=preco-subtotal
-let lucroLiquido=preco-subtotal-taxasTotal
-
-rMaterial.innerText=f(material)
-rEnergia.innerText=f(energia)
-rEnergiaKwh.innerText=energiaKwh.toFixed(2)
-rPerda.innerText=f(perdaValor)
-rEmbalagem.innerText=f(v("embalagem"))
-rMao.innerText=f(v("mao"))
-rOutros.innerText=f(v("outros"))
-rManut.innerText=f(v("manut"))
-rSubtotal.innerText=f(subtotal)
-
-rTaxaPercentual.innerText=f(taxaPercentualValor)
-rTaxaFixa.innerText=f(taxaFixa)
-rTaxasTotal.innerText=f(taxasTotal)
-
-rCustoTotalProducao.innerText=f(custoTotalProducao)
-
-rLucroBruto.innerText=f(lucroBruto)
-rLucroLiquido.innerText=f(lucroLiquido)
+  document.getElementById("rMaterial").innerText           = f(material);
+  document.getElementById("rEnergia").innerText            = f(energia);
+  document.getElementById("rPerda").innerText              = f(perdaValor);
+  document.getElementById("rSubtotal").innerText           = f(subtotal);
+  document.getElementById("rCustoTotalProducao").innerText = f(custoTotal);
 }
 
-document.getElementById("precoFinal").addEventListener("input", atualizarResumo)
+// ─── CALCULAR AO PRESSIONAR ENTER (MELHORIA 7) ──────────────────────────────
+document.addEventListener("keydown", function(e){
+  if(e.key === "Enter" && e.target.tagName === "INPUT" && e.target.type !== "button"){
+    calcular();
+  }
+});
+
+// ─── ATUALIZA RESUMO AO EDITAR PREÇO MANUALMENTE ────────────────────────────
+document.getElementById("precoFinal").addEventListener("input", atualizarResumo);
+
+// ─── COPIAR PREÇO (MELHORIA 8) ───────────────────────────────────────────────
+function copiarPreco(){
+  const val = document.getElementById("precoFinal").value;
+  navigator.clipboard.writeText(val).then(()=>{
+    showToast("✅ Preço copiado: R$ " + Number(val).toLocaleString("pt-BR",{minimumFractionDigits:2}));
+  }).catch(()=>{
+    showToast("Erro ao copiar", "#ef4444");
+  });
+}
+
+// ─── RESET COMPLETO (MELHORIA 2) ─────────────────────────────────────────────
+const DEFAULTS = { energia:"0.55", margem:"100", perda:"0", taxaPercentual:"0", taxaFixa:"0" };
 
 function resetar(){
-document.querySelectorAll("input").forEach(i=>{
-if(i.id!="energia") i.value=""
-})
-precoFinal.value=0
-document.querySelectorAll(".metric span:last-child").forEach(e=>e.innerText="R$ 0,00")
-rEnergiaKwh.innerText="0"
+  document.querySelectorAll(".grid input, #precoFinal").forEach(el => {
+    el.value = DEFAULTS[el.id] !== undefined ? DEFAULTS[el.id] : "";
+    el.classList.remove("invalid");
+  });
+  document.getElementById("precoFinal").value = "0";
+
+  // Sair do modo edição se estiver ativo
+  editingIndex = null;
+  document.getElementById("editingBadge").classList.remove("active");
+
+  atualizarResumo();
+  localStorage.removeItem("glm_form");
 }
+
+// ─── AUTO-SALVAR FORMULÁRIO (MELHORIA 4) ─────────────────────────────────────
+const FORM_FIELDS = ["nomeItem","filamento","peso","tempo","potencia","energia",
+                     "perda","embalagem","mao","outros","manut","margem",
+                     "taxaPercentual","taxaFixa","precoFinal"];
+
+function salvarFormulario(){
+  const state = {};
+  FORM_FIELDS.forEach(id => {
+    const el = document.getElementById(id);
+    if(el) state[id] = el.value;
+  });
+  localStorage.setItem("glm_form", JSON.stringify(state));
+}
+
+function restaurarFormulario(){
+  const saved = localStorage.getItem("glm_form");
+  if(!saved) return;
+  const state = JSON.parse(saved);
+  FORM_FIELDS.forEach(id => {
+    const el = document.getElementById(id);
+    if(el && state[id] !== undefined) el.value = state[id];
+  });
+  atualizarResumo();
+}
+
+// Salvar enquanto o usuário digita
+FORM_FIELDS.forEach(id => {
+  const el = document.getElementById(id);
+  if(el) el.addEventListener("input", salvarFormulario);
+});
+
+// ─── HISTÓRICO ───────────────────────────────────────────────────────────────
+function salvarNoHistorico(){
+  const nome = document.getElementById("nomeItem").value.trim();
+  if(!nome){ showToast("⚠️ Informe o nome do item!", "#ef4444"); return; }
+
+  const item = {
+    nome,
+    custo: document.getElementById("rCustoTotalProducao").innerText,
+    venda: "R$ " + Number(v("precoFinal")).toLocaleString("pt-BR",{minimumFractionDigits:2})
+  };
+
+  let historico = JSON.parse(localStorage.getItem("glm_data") || "[]");
+
+  // MELHORIA 5: atualizar item existente ou adicionar novo
+  if(editingIndex !== null){
+    historico[editingIndex] = item;
+    editingIndex = null;
+    document.getElementById("editingBadge").classList.remove("active");
+    showToast("✏️ Item atualizado com sucesso!");
+  } else {
+    historico.push(item);
+    showToast("💾 Precificação salva!");
+  }
+
+  localStorage.setItem("glm_data", JSON.stringify(historico));
+  carregarTabela();
+  document.getElementById("nomeItem").value = "";
+}
+
+function carregarTabela(){
+  const historico = JSON.parse(localStorage.getItem("glm_data") || "[]");
+  const tbody = document.querySelector("#tabelaHistorico tbody");
+  tbody.innerHTML = "";
+  historico.forEach((item, index) => {
+    tbody.innerHTML += `
+      <tr>
+        <td>${item.nome}</td>
+        <td>${item.custo}</td>
+        <td>${item.venda}</td>
+        <td>
+          <div class="action-cell">
+            <button class="edit-btn" onclick="editarItem(${index})" title="Editar">✏️</button>
+            <button class="del-btn"  onclick="excluirItem(${index})" title="Excluir">🗑️</button>
+          </div>
+        </td>
+      </tr>`;
+  });
+}
+
+function excluirItem(index){
+  if(!confirm("Excluir este item do histórico?")) return;
+  let historico = JSON.parse(localStorage.getItem("glm_data") || "[]");
+  historico.splice(index, 1);
+  localStorage.setItem("glm_data", JSON.stringify(historico));
+  carregarTabela();
+  showToast("🗑️ Item removido", "#ef4444");
+}
+
+// MELHORIA 5: repopular formulário com dados do item
+function editarItem(index){
+  const historico = JSON.parse(localStorage.getItem("glm_data") || "[]");
+  const item = historico[index];
+  editingIndex = index;
+
+  document.getElementById("nomeItem").value = item.nome;
+
+  // Extrair número do preço de venda salvo (ex: "R$ 1.250,00" → 1250.00)
+  const precoNum = item.venda.replace("R$","").trim().replace(/\./g,"").replace(",",".");
+  document.getElementById("precoFinal").value = parseFloat(precoNum) || 0;
+
+  document.getElementById("editingBadge").classList.add("active");
+  window.scrollTo({top:0, behavior:"smooth"});
+  showToast("✏️ Editando: " + item.nome, "#5f9bff");
+}
+
+// ─── EXPORTAÇÃO REAL .xlsx (MELHORIA 1) ──────────────────────────────────────
+function exportarExcel(){
+  const historico = JSON.parse(localStorage.getItem("glm_data") || "[]");
+  if(historico.length === 0){ showToast("⚠️ Nenhum dado para exportar!", "#ef4444"); return; }
+
+  // Montar array de dados para a planilha
+  const dados = historico.map(item => ({
+    "Nome do Item": item.nome,
+    "Custo Total":  item.custo,
+    "Preço de Venda": item.venda
+  }));
+
+  const ws = XLSX.utils.json_to_sheet(dados);
+
+  // Largura das colunas
+  ws["!cols"] = [{wch:35},{wch:18},{wch:18}];
+
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Precificações");
+  XLSX.writeFile(wb, "Relatorio_GLM_Studio.xlsx");
+  showToast("📊 Exportado com sucesso!");
+}
+
+// ─── INICIALIZAÇÃO ────────────────────────────────────────────────────────────
+window.onload = function(){
+  restaurarFormulario(); // MELHORIA 4
+  carregarTabela();
+};
 </script>
 
 </body>
