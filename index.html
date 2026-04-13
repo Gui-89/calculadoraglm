@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GLM Calculadora Pro</title>
 
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#00ffa3">
+<link rel="apple-touch-icon" href="LOGO.png">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <!-- MELHORIA 1: SheetJS para exportação .xlsx real -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -304,7 +307,7 @@ td{padding:12px 5px;border-top:1px solid rgba(255,255,255,0.05);vertical-align:m
       <div class="field"><label>Peso (g)</label><input id="peso" type="number" min="0"></div>
       <div class="field"><label>Tempo (h)</label><input id="tempo" type="number" min="0"></div>
       <div class="field"><label>Potência (W)</label><input id="potencia" type="number" min="0"></div>
-      <div class="field"><label>Tarifa energia</label><input id="energia" type="number" value="0.55" min="0"></div>
+      <div class="field"><label>Tarifa energia</label><input id="energia" type="number" value="0.97" min="0"></div>
       <div class="field"><label>Perda %</label><input id="perda" type="number" value="0" min="0"></div>
 
       <div class="field full"><label>Embalagem</label><input id="embalagem" type="number" min="0"></div>
@@ -614,7 +617,16 @@ function exportarExcel(){
 window.onload = function(){
   restaurarFormulario(); // MELHORIA 4
   carregarTabela();
-};
+}
+
+// ─── REGISTRO DO SERVICE WORKER (PWA) ─────────────────────────────────────────
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('Aplicativo Instalável ativado!'))
+      .catch(err => console.log('Erro ao ativar app', err));
+  });
+}
 </script>
 
 </body>
