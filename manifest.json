@@ -1,0 +1,16 @@
+{
+  "name": "GLM Calculadora Pro",
+  "short_name": "GLM Calc",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#05060d",
+  "theme_color": "#00ffa3",
+  "icons": [
+    {
+      "src": "LOGO.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
