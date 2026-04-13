@@ -10,9 +10,12 @@
 <link rel="apple-touch-icon" href="img/LOGO.png">
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
+/* ─── ESTILOS GERAIS ─── */
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 
 body{
@@ -50,6 +53,7 @@ body{
 
 @keyframes borderGlow{100%{filter:hue-rotate(360deg)}}
 
+/* ─── CABEÇALHO ─── */
 .top{
   display:flex;
   justify-content:space-between;
@@ -68,6 +72,7 @@ body{
 
 .title{font-size:18px;opacity:.8;text-align:right;line-height:1.2;}
 
+/* ─── PREÇO E INPUTS ─── */
 .priceBox{text-align:center;margin-bottom:25px;position:relative;}
 .priceLabel{opacity:.6;margin-bottom:5px;font-size:14px;}
 
@@ -102,10 +107,10 @@ body{
   opacity:.5;
   transition:.2s;
   padding:4px;
-  flex:unset;
 }
 .copy-btn:hover{opacity:1;transform:translateY(-50%) scale(1.2);}
 
+/* ─── FEEDBACK (TOAST) ─── */
 .toast{
   position:fixed;
   bottom:30px;
@@ -125,6 +130,7 @@ body{
 }
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
+/* ─── FORMULÁRIO GRID ─── */
 .grid{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -157,7 +163,7 @@ body{
 
 .full{grid-column:1/3;}
 
-/* UPLOAD DE IMAGEM */
+/* ─── FOTOS E UPLOAD ─── */
 .upload-container {
   display: flex;
   align-items: center;
@@ -191,6 +197,7 @@ body{
   border: 1px solid rgba(255,255,255,0.1);
 }
 
+/* ─── BOTÕES ─── */
 .buttons{
   display:flex;
   flex-direction:column;
@@ -217,6 +224,7 @@ button{
 
 button:hover{opacity:.8;transform:translateY(-2px);}
 
+/* ─── RESULTADOS ─── */
 .result{
   margin-top:25px;
   background:#050813;
@@ -245,7 +253,7 @@ button:hover{opacity:.8;transform:translateY(-2px);}
 .metric span:last-child{color:#00ffa3;}
 .metric span.negative{color:#ff5f5f !important;}
 
-/* DASHBOARD */
+/* ─── DASHBOARD FINANCEIRO ─── */
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -273,7 +281,7 @@ button:hover{opacity:.8;transform:translateY(-2px);}
 }
 .dash-card.profit h3 { color: #5f9bff; }
 
-/* HISTÓRICO */
+/* ─── HISTÓRICO ─── */
 .history-section{
   margin-top:30px;
   background:rgba(10,12,24,.8);
@@ -301,14 +309,11 @@ td{padding:12px 5px;border-top:1px solid rgba(255,255,255,0.05);vertical-align:m
   border:none;
   cursor:pointer;
   font-size:16px;
-  flex:unset;
-  padding:0;
   transition: transform 0.2s;
 }
 .action-btn:hover { transform: scale(1.2); }
 .edit-btn { color:#5f9bff; }
 .del-btn { color:#ff5f5f; }
-.zap-btn { filter: drop-shadow(0 0 2px rgba(37, 211, 102, 0.5)); }
 
 .editing-badge{
   display:none;
@@ -388,6 +393,9 @@ td{padding:12px 5px;border-top:1px solid rgba(255,255,255,0.05);vertical-align:m
       <div class="field"><label>Tarifa energia</label><input id="energia" type="number" value="0.97" min="0"></div>
       <div class="field"><label>Perda %</label><input id="perda" type="number" value="0" min="0"></div>
 
+      <div class="field"><label>Valor Máquina (R$)</label><input id="valorMaquina" type="number" value="2000"></div>
+      <div class="field"><label>Vida Útil (Horas)</label><input id="vidaUtil" type="number" value="5000"></div>
+
       <div class="field full"><label>Embalagem</label><input id="embalagem" type="number" min="0"></div>
       <div class="field full"><label>Mão de obra</label><input id="mao" type="number" min="0"></div>
       <div class="field full"><label>Outros custos</label><input id="outros" type="number" min="0"></div>
@@ -414,6 +422,7 @@ td{padding:12px 5px;border-top:1px solid rgba(255,255,255,0.05);vertical-align:m
       <div class="sectionTitle">Custos Operacionais</div>
       <div class="metric"><span>Material</span><span id="rMaterial">R$ 0,00</span></div>
       <div class="metric"><span>Energia</span><span id="rEnergia">R$ 0,00</span></div>
+      <div class="metric"><span>Depreciação Máquina</span><span id="rDepreciacao">R$ 0,00</span></div>
       <div class="metric"><span>Perdas</span><span id="rPerda">R$ 0,00</span></div>
       <div class="metric"><span><strong>Subtotal Custos</strong></span><span id="rSubtotal">R$ 0,00</span></div>
 
@@ -459,23 +468,29 @@ td{padding:12px 5px;border-top:1px solid rgba(255,255,255,0.05);vertical-align:m
 </div>
 
 <script>
-// ─── PWA ─────────────────────────────────────────────────────────────────────
+// ─── PWA SETUP ───
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js').catch(err => console.log('Erro no SW', err));
   });
 }
 
-// ─── ESTADO E UTILITÁRIOS ────────────────────────────────────────────────────
+// ─── ESTADO GLOBAL ───
 let editingIndex = null;
-let fotoAtualBase64 = ""; // Guarda a foto comprimida
+let fotoAtualBase64 = "";
 
+// ─── UTILITÁRIOS ───
 function v(id){ return Number(document.getElementById(id).value) || 0; }
-function f(n){ return "R$ " + n.toLocaleString("pt-BR", {minimumFractionDigits:2, maximumFractionDigits:2}); }
+
+function f(n){
+  return "R$ " + n.toLocaleString("pt-BR", {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
 function parseCurrency(str) {
   if(!str) return 0;
   return parseFloat(str.replace("R$","").trim().replace(/\./g,"").replace(",","."));
 }
+
 function showToast(msg, cor){
   const t = document.getElementById("toast");
   t.textContent = msg;
@@ -485,29 +500,22 @@ function showToast(msg, cor){
   setTimeout(()=> t.classList.remove("show"), 2500);
 }
 
-// ─── PROCESSAMENTO DE IMAGEM (COMPRESSÃO) ────────────────────────────────────
+// ─── PROCESSAMENTO DE IMAGEM ───
 function comprimirEExibirImagem(event) {
   const file = event.target.files[0];
   if (!file) return;
-
   const reader = new FileReader();
   reader.onload = function(e) {
     const img = new Image();
     img.onload = function() {
-      // Cria um canvas para reduzir o tamanho da imagem (evita travar o LocalStorage)
       const canvas = document.createElement("canvas");
-      const MAX_WIDTH = 200; // Tamanho máximo da miniatura
+      const MAX_WIDTH = 200;
       const scaleSize = MAX_WIDTH / img.width;
-      
       canvas.width = MAX_WIDTH;
       canvas.height = img.height * scaleSize;
-      
       const ctx = canvas.getContext("2d");
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      
-      // Converte para JPEG com qualidade 70%
       fotoAtualBase64 = canvas.toDataURL("image/jpeg", 0.7);
-      
       document.getElementById("imgPreview").src = fotoAtualBase64;
       document.getElementById("imgPreview").style.display = "block";
       document.getElementById("btnRemoverFoto").style.display = "block";
@@ -525,62 +533,79 @@ function removerFoto() {
   document.getElementById("fotoInput").value = "";
 }
 
-// ─── CÁLCULO PRINCIPAL ───────────────────────────────────────────────────────
+// ─── CÁLCULO PRINCIPAL ───
 function calcular(){
   let valido = true;
   ["filamento","peso"].forEach(id => {
     const el = document.getElementById(id);
-    if(!Number(el.value)){ el.classList.add("invalid"); valido = false; } 
-    else { el.classList.remove("invalid"); }
+    if(!Number(el.value)){
+      el.classList.add("invalid");
+      valido = false;
+    } else {
+      el.classList.remove("invalid");
+    }
   });
   if(!valido){ showToast("⚠️ Filamento e Peso são obrigatórios!", "#ef4444"); return; }
 
   let material  = (v("filamento") / 1000) * v("peso");
   let energiaKwh = (v("potencia") * v("tempo")) / 1000;
   let energia   = energiaKwh * v("energia");
-  let base      = material + energia + v("embalagem") + v("mao") + v("outros") + v("manut");
+  
+  // NOVA LÓGICA: Depreciação
+  let depreciacao = (v("valorMaquina") / v("vidaUtil")) * v("tempo");
+
+  let base = material + energia + depreciacao + v("embalagem") + v("mao") + v("outros") + v("manut");
   let perdaValor= base * (v("perda") / 100);
-  let subtotal  = base + perdaValor;
+  let subtotal = base + perdaValor;
   let margemBase= subtotal * (1 + (v("margem") / 100));
   let taxaPerc  = v("taxaPercentual") / 100;
   let taxaFixa  = v("taxaFixa");
-  let total     = (margemBase / (1 - taxaPerc)) + taxaFixa;
+  let total = (margemBase / (1 - taxaPerc)) + taxaFixa;
 
   document.getElementById("precoFinal").value = total.toFixed(2);
+  
+  // Atualiza as métricas na tela
+  document.getElementById("rMaterial").innerText = f(material);
+  document.getElementById("rEnergia").innerText = f(energia);
+  document.getElementById("rDepreciacao").innerText = f(depreciacao);
+  document.getElementById("rPerda").innerText = f(perdaValor);
+  document.getElementById("rSubtotal").innerText = f(subtotal);
+
   atualizarResumo();
   salvarFormulario();
 }
 
 function atualizarResumo(){
-  let preco     = v("precoFinal");
+  let preco = v("precoFinal");
   let material  = (v("filamento") / 1000) * v("peso");
   let energiaKwh= (v("potencia") * v("tempo")) / 1000;
   let energia   = energiaKwh * v("energia");
-  let base      = material + energia + v("embalagem") + v("mao") + v("outros") + v("manut");
-  let perdaValor= base * (v("perda") / 100);
-  let subtotal  = base + perdaValor;
+  let depreciacao = (v("valorMaquina") / v("vidaUtil")) * v("tempo");
+  let base = material + energia + depreciacao + v("embalagem") + v("mao") + v("outros") + v("manut");
+  let perdaValor = base * (v("perda") / 100);
+  let subtotal = base + perdaValor;
   let taxasTotal= (preco * (v("taxaPercentual") / 100)) + v("taxaFixa");
   let custoTotal= subtotal + taxasTotal;
-  let lucro     = preco - custoTotal;
+  let lucro = preco - custoTotal;
 
   let pct = preco > 0 ? ((lucro / preco) * 100).toFixed(1) : "0.0";
   const lucroEl = document.getElementById("rLucroLiquido");
   lucroEl.textContent = f(lucro) + " (" + pct + "%)";
-  lucroEl.className   = lucro < 0 ? "negative" : "";
+  lucroEl.className = lucro < 0 ? "negative" : "";
 
-  document.getElementById("rMaterial").innerText           = f(material);
-  document.getElementById("rEnergia").innerText            = f(energia);
-  document.getElementById("rPerda").innerText              = f(perdaValor);
-  document.getElementById("rSubtotal").innerText           = f(subtotal);
   document.getElementById("rCustoTotalProducao").innerText = f(custoTotal);
 }
 
+// ─── EVENTOS TECLADO ───
 document.addEventListener("keydown", function(e){
-  if(e.key === "Enter" && e.target.tagName === "INPUT" && e.target.type !== "button"){ calcular(); }
+  if(e.key === "Enter" && e.target.tagName === "INPUT" && e.target.type !== "button"){
+    calcular();
+  }
 });
 
 document.getElementById("precoFinal").addEventListener("input", atualizarResumo);
 
+// ─── COPIAR ───
 function copiarPreco(){
   const val = document.getElementById("precoFinal").value;
   navigator.clipboard.writeText(val).then(()=>{
@@ -588,26 +613,26 @@ function copiarPreco(){
   }).catch(()=>{ showToast("Erro ao copiar", "#ef4444"); });
 }
 
-const DEFAULTS = { energia:"0.55", margem:"100", perda:"0", taxaPercentual:"0", taxaFixa:"0" };
+// ─── RESET ───
+const DEFAULTS = { energia:"0.97", margem:"100", perda:"0", taxaPercentual:"0", taxaFixa:"0", valorMaquina:"2000", vidaUtil:"5000" };
 
 function resetar(){
-  document.querySelectorAll(".grid input[type='number'], .grid input[type='text'], .grid textarea, #precoFinal").forEach(el => {
+  document.querySelectorAll(".grid input, .grid textarea, #precoFinal").forEach(el => {
     el.value = DEFAULTS[el.id] !== undefined ? DEFAULTS[el.id] : "";
     el.classList.remove("invalid");
   });
   document.getElementById("precoFinal").value = "0";
-
-  removerFoto(); // Limpa a foto
+  removerFoto();
   editingIndex = null;
   document.getElementById("editingBadge").classList.remove("active");
-
   atualizarResumo();
   localStorage.removeItem("glm_form");
 }
 
+// ─── AUTO-SALVAMENTO FORMULÁRIO ───
 const FORM_FIELDS = ["nomeItem","descricaoItem","filamento","peso","tempo","potencia","energia",
                      "perda","embalagem","mao","outros","manut","margem",
-                     "taxaPercentual","taxaFixa","precoFinal"];
+                     "taxaPercentual","taxaFixa","precoFinal", "valorMaquina", "vidaUtil"];
 
 function salvarFormulario(){
   const state = {};
@@ -634,7 +659,7 @@ FORM_FIELDS.forEach(id => {
   if(el) el.addEventListener("input", salvarFormulario);
 });
 
-// ─── DASHBOARD ───────────────────────────────────────────────────────────────
+// ─── DASHBOARD ───
 function atualizarDashboard(historico) {
   let custoTotal = 0, vendaTotal = 0;
   historico.forEach(item => {
@@ -642,14 +667,13 @@ function atualizarDashboard(historico) {
     vendaTotal += parseCurrency(item.venda);
   });
   const lucroTotal = vendaTotal - custoTotal;
-
   document.getElementById("dashTotalItens").innerText = historico.length;
   document.getElementById("dashCustoTotal").innerText = f(custoTotal);
   document.getElementById("dashVendaTotal").innerText = f(vendaTotal);
   document.getElementById("dashLucroTotal").innerText = f(lucroTotal);
 }
 
-// ─── HISTÓRICO E WHATSAPP ────────────────────────────────────────────────────
+// ─── HISTÓRICO ───
 function salvarNoHistorico(){
   const nome = document.getElementById("nomeItem").value.trim();
   const descricao = document.getElementById("descricaoItem").value.trim();
@@ -657,9 +681,8 @@ function salvarNoHistorico(){
   if(!nome){ showToast("⚠️ Informe o nome do item!", "#ef4444"); return; }
 
   const item = {
-    nome,
-    descricao,
-    foto: fotoAtualBase64, // Salva a foto em base64 no item
+    nome, descricao,
+    foto: fotoAtualBase64,
     custo: document.getElementById("rCustoTotalProducao").innerText,
     venda: "R$ " + Number(v("precoFinal")).toLocaleString("pt-BR",{minimumFractionDigits:2})
   };
@@ -670,7 +693,7 @@ function salvarNoHistorico(){
     historico[editingIndex] = item;
     editingIndex = null;
     document.getElementById("editingBadge").classList.remove("active");
-    showToast("✏️ Item atualizado com sucesso!");
+    showToast("✏️ Item atualizado!");
   } else {
     historico.push(item);
     showToast("💾 Precificação salva!");
@@ -678,8 +701,6 @@ function salvarNoHistorico(){
 
   localStorage.setItem("glm_data", JSON.stringify(historico));
   carregarTabela();
-  
-  // Limpa apenas o cabeçalho após salvar, mantendo os custos
   document.getElementById("nomeItem").value = "";
   document.getElementById("descricaoItem").value = "";
   removerFoto();
@@ -703,121 +724,116 @@ function carregarTabela(){
         <td>${item.venda}</td>
         <td>
           <div class="action-cell">
-            <button class="action-btn zap-btn" onclick="enviarWhatsApp(${index})" title="Enviar via WhatsApp">🟢</button>
+            <button class="action-btn" onclick="gerarPDF(${index})" title="Gerar PDF">📄</button>
+            <button class="action-btn zap-btn" onclick="enviarWhatsApp(${index})" title="Enviar WhatsApp">🟢</button>
             <button class="action-btn edit-btn" onclick="editarItem(${index})" title="Editar">✏️</button>
             <button class="action-btn del-btn"  onclick="excluirItem(${index})" title="Excluir">🗑️</button>
           </div>
         </td>
       </tr>`;
   });
-  
   atualizarDashboard(historico);
+}
+
+// ─── NOVA FUNÇÃO: GERADOR PDF ───
+async function gerarPDF(index) {
+  const historico = JSON.parse(localStorage.getItem("glm_data") || "[]");
+  const item = historico[index];
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  // Estética do PDF
+  doc.setFillColor(15, 43, 47);
+  doc.rect(0, 0, 210, 40, 'F');
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(22);
+  doc.text("GLM STUDIO - ORÇAMENTO", 20, 25);
+
+  doc.setTextColor(0, 0, 0);
+  doc.setFontSize(16);
+  doc.text(`Produto: ${item.nome}`, 20, 60);
+  
+  doc.setFontSize(12);
+  const desc = item.descricao || 'Sem descrição adicional.';
+  const splitDesc = doc.splitTextToSize(desc, 170);
+  doc.text(splitDesc, 20, 75);
+
+  if(item.foto) {
+    try {
+      doc.addImage(item.foto, 'JPEG', 20, 95, 60, 60);
+    } catch(e) { console.log("Erro imagem no PDF"); }
+  }
+
+  doc.setFontSize(18);
+  doc.setTextColor(0, 150, 100);
+  doc.text(`Valor: ${item.venda}`, 20, 170);
+
+  doc.save(`Orcamento_${item.nome}.pdf`);
+  showToast("📄 PDF Gerado!");
 }
 
 function enviarWhatsApp(index) {
   const historico = JSON.parse(localStorage.getItem("glm_data") || "[]");
   const item = historico[index];
-  
   let texto = `Olá! Tudo bem?\nSegue o orçamento para a confecção da sua peça:\n\n📌 *Item:* ${item.nome}\n`;
   if (item.descricao) { texto += `📝 *Detalhes:* ${item.descricao}\n`; }
   texto += `💰 *Valor:* ${item.venda}\n\nQualquer dúvida, estou à disposição!`;
-
   const url = `https://wa.me/?text=${encodeURIComponent(texto)}`;
   window.open(url, '_blank');
 }
 
 function excluirItem(index){
-  if(!confirm("Excluir este item do histórico?")) return;
+  if(!confirm("Excluir item?")) return;
   let historico = JSON.parse(localStorage.getItem("glm_data") || "[]");
   historico.splice(index, 1);
   localStorage.setItem("glm_data", JSON.stringify(historico));
   carregarTabela();
-  showToast("🗑️ Item removido", "#ef4444");
 }
 
 function editarItem(index){
   const historico = JSON.parse(localStorage.getItem("glm_data") || "[]");
   const item = historico[index];
   editingIndex = index;
-
   document.getElementById("nomeItem").value = item.nome;
   document.getElementById("descricaoItem").value = item.descricao || "";
-  
-  // Carrega a foto se existir
   if(item.foto) {
     fotoAtualBase64 = item.foto;
     document.getElementById("imgPreview").src = item.foto;
     document.getElementById("imgPreview").style.display = "block";
     document.getElementById("btnRemoverFoto").style.display = "block";
-  } else {
-    removerFoto();
-  }
-
+  } else { removerFoto(); }
   const precoNum = item.venda.replace("R$","").trim().replace(/\./g,"").replace(",",".");
   document.getElementById("precoFinal").value = parseFloat(precoNum) || 0;
-
   document.getElementById("editingBadge").classList.add("active");
   window.scrollTo({top:0, behavior:"smooth"});
-  showToast("✏️ Editando: " + item.nome, "#5f9bff");
 }
 
 function exportarExcel(){
   const historico = JSON.parse(localStorage.getItem("glm_data") || "[]");
-  if(historico.length === 0){ showToast("⚠️ Nenhum dado para exportar!", "#ef4444"); return; }
-
-  const dados = historico.map(item => ({
-    "Nome do Item": item.nome,
-    "Descrição": item.descricao || "-",
-    "Tem Foto?": item.foto ? "Sim" : "Não",
-    "Custo Total":  item.custo,
-    "Preço de Venda": item.venda
-  }));
-
+  const dados = historico.map(item => ({ "Item": item.nome, "Custo": item.custo, "Venda": item.venda }));
   const ws = XLSX.utils.json_to_sheet(dados);
-  ws["!cols"] = [{wch:30},{wch:40},{wch:10},{wch:15},{wch:15}];
-
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "Precificações");
-  XLSX.writeFile(wb, "Relatorio_GLM_Studio.xlsx");
-  showToast("📊 Exportado com sucesso!");
+  XLSX.writeFile(wb, "Relatorio_GLM.xlsx");
 }
 
-// ─── BACKUP E RESTAURAÇÃO ────────────────────────────────────────────────────
 function baixarBackup() {
-  const historico = localStorage.getItem("glm_data");
-  if (!historico || historico === "[]") { showToast("⚠️ Não há dados para fazer backup!", "#ef4444"); return; }
-  
-  const blob = new Blob([historico], { type: "application/json" });
+  const blob = new Blob([localStorage.getItem("glm_data")], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
-  
-  const dataHoje = new Date().toISOString().split('T')[0];
-  link.download = `Perfil_GLM_${dataHoje}.json`;
-  
+  link.download = `Perfil_GLM.json`;
   link.href = url;
-  document.body.appendChild(link);
   link.click();
-  document.body.removeChild(link);
-  showToast("✅ Backup do Perfil baixado com sucesso!");
 }
 
 function carregarBackup(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-
   const reader = new FileReader();
   reader.onload = function(e) {
-    try {
-      const dadosRestaurados = JSON.parse(e.target.result);
-      if (Array.isArray(dadosRestaurados)) {
-        localStorage.setItem("glm_data", JSON.stringify(dadosRestaurados));
-        carregarTabela();
-        showToast("📂 Perfil carregado com sucesso!", "#5f9bff");
-      } else { showToast("⚠️ Arquivo de backup inválido.", "#ef4444"); }
-    } catch (error) { showToast("⚠️ Erro ao ler o arquivo.", "#ef4444"); }
+    localStorage.setItem("glm_data", e.target.result);
+    carregarTabela();
+    showToast("📂 Perfil carregado!");
   };
-  reader.readAsText(file);
-  event.target.value = ""; 
+  reader.readAsText(event.target.files[0]);
 }
 
 window.onload = function(){
@@ -825,6 +841,5 @@ window.onload = function(){
   carregarTabela();
 };
 </script>
-
 </body>
 </html>
