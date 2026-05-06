@@ -85,6 +85,8 @@ button:hover{opacity:.85;transform:translateY(-2px);}
 .metric{display:flex;justify-content:space-between;margin:6px 0;font-size:14px;}
 .metric span:last-child{color:#00ffa3;}
 .metric span.negative{color:#ff5f5f !important;}
+/* ── NOVA: taxas em laranja para diferenciar do lucro ── */
+.metric span.taxa-val{color:#fbbf24 !important;}
 
 .chart-container{margin-top:20px;padding:15px;background:#050813;border-radius:14px;text-align:center;}
 .chart-container h4{font-size:13px;opacity:.6;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;}
@@ -259,6 +261,22 @@ td{padding:12px 5px;border-top:1px solid rgba(255,255,255,0.05);vertical-align:m
       <div class="metric"><span>Depreciação Máquina</span><span id="rDepreciacao">R$ 0,00</span></div>
       <div class="metric"><span>Perdas</span><span id="rPerda">R$ 0,00</span></div>
       <div class="metric"><span><strong>Subtotal Custos</strong></span><span id="rSubtotal">R$ 0,00</span></div>
+
+      <!-- ── NOVO: Taxas Marketplace discriminadas ── -->
+      <div class="sectionTitle" id="taxasSection" style="display:none">Taxas Marketplace</div>
+      <div class="metric" id="taxaPercRow" style="display:none">
+        <span>Taxa % sobre venda (<span id="rTaxaPercPct">0</span>%)</span>
+        <span class="taxa-val" id="rTaxaPercValor">R$ 0,00</span>
+      </div>
+      <div class="metric" id="taxaFixaRow" style="display:none">
+        <span>Taxa Fixa Marketplace</span>
+        <span class="taxa-val" id="rTaxaFixaValor">R$ 0,00</span>
+      </div>
+      <div class="metric" id="taxaTotalRow" style="display:none">
+        <span><strong>Total Taxas</strong></span>
+        <span class="taxa-val" id="rTaxasTotal">R$ 0,00</span>
+      </div>
+
       <div class="sectionTitle">Resultado Final</div>
       <div class="metric"><span><strong>Custo Total (Produção + Taxas)</strong></span><span id="rCustoTotalProducao">R$ 0,00</span></div>
       <div class="metric"><span>Lucro Líquido (por unidade)</span><span id="rLucroLiquido">R$ 0,00</span></div>
@@ -454,18 +472,49 @@ function calcular(){
   salvarFormulario();
 }
 
+// ─── ATUALIZAR RESUMO (com taxas discriminadas) ───
 function atualizarResumo(){
   const preco = v("precoFinal");
   const c = calcularBase();
-  const taxasTotal = (preco*(v("taxaPercentual")/100))+v("taxaFixa");
-  const custoTotal = c.subtotal+taxasTotal;
-  const lucro = preco-custoTotal;
-  const pct = preco>0 ? ((lucro/preco)*100) : 0;
+
+  // ── NOVO: calcular cada taxa individualmente ──
+  const taxaPercPct   = v("taxaPercentual");
+  const taxaPercValor = preco * (taxaPercPct / 100);
+  const taxaFixaValor = v("taxaFixa");
+  const taxasTotal    = taxaPercValor + taxaFixaValor;
+
+  const custoTotal = c.subtotal + taxasTotal;
+  const lucro = preco - custoTotal;
+  const pct = preco > 0 ? ((lucro / preco) * 100) : 0;
 
   const lucroEl = document.getElementById("rLucroLiquido");
-  lucroEl.textContent = f(lucro)+" ("+pct.toFixed(1)+"%)";
-  lucroEl.className = lucro<0 ? "negative" : "";
+  lucroEl.textContent = f(lucro) + " (" + pct.toFixed(1) + "%)";
+  lucroEl.className = lucro < 0 ? "negative" : "";
   document.getElementById("rCustoTotalProducao").innerText = f(custoTotal);
+
+  // ── NOVO: mostrar/ocultar bloco de taxas ──
+  const hasTaxa = taxasTotal > 0;
+  document.getElementById("taxasSection").style.display   = hasTaxa ? "" : "none";
+  document.getElementById("taxaTotalRow").style.display   = hasTaxa ? "" : "none";
+
+  if (taxaPercPct > 0) {
+    document.getElementById("taxaPercRow").style.display = "";
+    document.getElementById("rTaxaPercPct").textContent  = taxaPercPct;
+    document.getElementById("rTaxaPercValor").innerText  = f(taxaPercValor);
+  } else {
+    document.getElementById("taxaPercRow").style.display = "none";
+  }
+
+  if (taxaFixaValor > 0) {
+    document.getElementById("taxaFixaRow").style.display = "";
+    document.getElementById("rTaxaFixaValor").innerText  = f(taxaFixaValor);
+  } else {
+    document.getElementById("taxaFixaRow").style.display = "none";
+  }
+
+  if (hasTaxa) {
+    document.getElementById("rTaxasTotal").innerText = f(taxasTotal);
+  }
 
   const badge = document.getElementById("profitBadge");
   if(preco<=0){ badge.textContent="—"; badge.className="profit-badge"; }
@@ -558,7 +607,6 @@ function renderComparador(){
   if(comparadorItens.length===0){ sec.style.display="none"; return; }
   sec.style.display="block";
 
-  // Encontrar melhor lucro%
   const maxLucro = Math.max(...comparadorItens.map(x=>x.lucroPct));
   const minLucro = Math.min(...comparadorItens.map(x=>x.lucroPct));
 
@@ -577,7 +625,6 @@ function renderComparador(){
         <span class="comp-badge ${badgeClass}">${badgeLabel} ${item.lucroPct.toFixed(1)}%</span>
       </div>`;
   });
-  // Slots vazios
   for(let i=comparadorItens.length; i<3; i++){
     html += `<div class="comp-card empty">+ Adicionar<br>cenário</div>`;
   }
@@ -614,6 +661,11 @@ function resetar(){
   document.getElementById("margemTableContainer").style.display="none";
   document.getElementById("profitBadge").textContent="—";
   document.getElementById("profitBadge").className="profit-badge";
+  // Ocultar bloco de taxas
+  document.getElementById("taxasSection").style.display="none";
+  document.getElementById("taxaPercRow").style.display="none";
+  document.getElementById("taxaFixaRow").style.display="none";
+  document.getElementById("taxaTotalRow").style.display="none";
   if(costChart){ costChart.destroy(); costChart=null; }
   atualizarResumo();
   localStorage.removeItem("glm_form");
@@ -674,7 +726,6 @@ function salvarNoHistorico(){
   const item={ nome, descricao, foto:fotoAtualBase64, custo:custoEl, venda, estoque:0 };
   let historico=JSON.parse(localStorage.getItem("glm_data")||"[]");
   if(editingIndex!==null){
-    // preserve estoque when editing
     item.estoque = historico[editingIndex].estoque || 0;
     historico[editingIndex]=item; editingIndex=null;
     document.getElementById("editingBadge").classList.remove("active");
