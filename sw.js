@@ -1,4 +1,4 @@
-const CACHE_NAME = 'glm-calc-v2';   // ← bumpar versão força limpeza do cache antigo
+const CACHE_NAME = 'glm-calc-v3';   // ← bumpar versão força limpeza do cache antigo
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
