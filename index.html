@@ -85,14 +85,12 @@ button:hover{opacity:.85;transform:translateY(-2px);}
 .metric{display:flex;justify-content:space-between;margin:6px 0;font-size:14px;}
 .metric span:last-child{color:#00ffa3;}
 .metric span.negative{color:#ff5f5f !important;}
-/* ── NOVA: taxas em laranja para diferenciar do lucro ── */
 .metric span.taxa-val{color:#fbbf24 !important;}
 
 .chart-container{margin-top:20px;padding:15px;background:#050813;border-radius:14px;text-align:center;}
 .chart-container h4{font-size:13px;opacity:.6;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;}
 #costChart{max-width:220px;max-height:220px;margin:0 auto;display:block;}
 
-/* ─── TABELA DE MARGEM ─── */
 .margem-table-container{margin-top:20px;padding:15px;background:#050813;border-radius:14px;}
 .margem-table-container h4{font-size:13px;opacity:.6;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;text-align:center;}
 .margem-table{width:100%;border-collapse:collapse;font-size:12px;}
@@ -107,7 +105,6 @@ button:hover{opacity:.85;transform:translateY(-2px);}
 .margem-table td.pct.warn{color:#ffc800;}
 .margem-table td.pct.bad{color:#ff5f5f;}
 
-/* ─── COMPARADOR ─── */
 .comparador-section{margin-bottom:20px;}
 .comparador-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;}
 .comparador-header h3{font-size:15px;font-weight:600;}
@@ -127,7 +124,6 @@ button:hover{opacity:.85;transform:translateY(-2px);}
 .comp-badge.mid{background:rgba(255,200,0,.2);color:#ffc800;border:1px solid rgba(255,200,0,.4);}
 .comp-badge.low{background:rgba(255,95,95,.2);color:#ff5f5f;border:1px solid rgba(255,95,95,.4);}
 
-/* ─── DASHBOARD ─── */
 .dashboard-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
 .dash-card{background:rgba(0,0,0,.4);padding:12px;border-radius:12px;border:1px solid rgba(0,255,163,.1);text-align:center;}
 .dash-card span{font-size:11px;opacity:.7;text-transform:uppercase;display:block;margin-bottom:5px;}
@@ -135,7 +131,6 @@ button:hover{opacity:.85;transform:translateY(-2px);}
 .dash-card.profit h3{color:#5f9bff;}
 .dash-card.stock h3{color:#a78bfa;}
 
-/* ─── HISTÓRICO ─── */
 .history-section{margin-top:30px;background:rgba(10,12,24,.8);border-radius:18px;padding:20px;border:1px solid rgba(255,255,255,.05);}
 .search-box{position:relative;margin-bottom:14px;}
 .search-box input{width:100%;padding:10px 14px 10px 36px;background:#0b0f22;border:1px solid rgba(255,255,255,.08);border-radius:10px;color:#fff;font-size:13px;outline:none;transition:.2s;}
@@ -157,12 +152,7 @@ td{padding:12px 5px;border-top:1px solid rgba(255,255,255,0.05);vertical-align:m
 .profit-pill.warn{background:rgba(255,200,0,.12);color:#ffc800;}
 .profit-pill.bad{background:rgba(255,95,95,.12);color:#ff5f5f;}
 
-/* ─── ESTOQUE ─── */
-.stock-input{
-  width:52px;padding:4px 6px;border:1px solid rgba(255,255,255,.1);
-  border-radius:6px;background:#0b0f22;color:#a78bfa;
-  font-size:12px;font-weight:600;text-align:center;outline:none;
-}
+.stock-input{width:52px;padding:4px 6px;border:1px solid rgba(255,255,255,.1);border-radius:6px;background:#0b0f22;color:#a78bfa;font-size:12px;font-weight:600;text-align:center;outline:none;}
 .stock-input:focus{border-color:#a78bfa;}
 .stock-label{font-size:10px;opacity:.5;display:block;text-align:center;}
 
@@ -172,16 +162,166 @@ td{padding:12px 5px;border-top:1px solid rgba(255,255,255,0.05);vertical-align:m
 .btn-secundary{background:#1f2937;color:#fff;font-size:13px;padding:10px;border-radius:8px;flex:1;min-width:120px;}
 .empty-state{text-align:center;padding:30px;opacity:.4;font-size:14px;}
 .empty-state div{font-size:36px;margin-bottom:8px;}
-
-/* ─── PRO BADGE ─── */
 .pro-tag{display:inline-block;background:linear-gradient(90deg,#00ffa3,#5f9bff);color:#000;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;margin-left:6px;vertical-align:middle;letter-spacing:.5px;}
+
+/* ══════════════════════════════════════════════
+   NOVO: PAINEL DE VIABILIDADE
+══════════════════════════════════════════════ */
+#viabilidade-panel{
+  border-radius:18px;margin-bottom:20px;overflow:hidden;
+  border:1.5px solid rgba(0,255,163,.3);
+  background:linear-gradient(145deg,#060e0c,#050610);
+  box-shadow:0 0 40px rgba(0,255,163,.08);
+  animation:slideDown .4s ease;
+}
+@keyframes slideDown{from{opacity:0;transform:translateY(-16px);}to{opacity:1;transform:translateY(0);}}
+.via-header{
+  padding:16px 20px;
+  background:linear-gradient(90deg,rgba(0,255,163,.12),rgba(95,155,255,.08));
+  border-bottom:1px solid rgba(255,255,255,.06);
+  display:flex;align-items:center;gap:10px;
+}
+.via-header-icon{font-size:22px;}
+.via-header-txt h3{font-size:14px;font-weight:700;color:#00ffa3;}
+.via-header-txt p{font-size:11px;color:rgba(255,255,255,.4);margin-top:1px;}
+.via-badge-src{background:rgba(0,255,163,.15);border:1px solid rgba(0,255,163,.3);color:#00ffa3;font-size:9px;font-weight:800;padding:3px 8px;border-radius:4px;margin-left:auto;letter-spacing:.4px;}
+.via-body{padding:18px 20px;display:flex;flex-direction:column;gap:14px;}
+.via-mkt-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.via-mkt-card{background:rgba(255,255,255,.04);border-radius:10px;padding:10px 12px;text-align:center;}
+.via-mkt-card span{font-size:9px;color:rgba(255,255,255,.35);display:block;margin-bottom:3px;text-transform:uppercase;letter-spacing:.4px;}
+.via-mkt-card b{font-size:15px;font-weight:800;}
+.via-status{border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;}
+.via-status.competitivo{background:rgba(0,255,163,.08);border:1px solid rgba(0,255,163,.25);}
+.via-status.cuidado{background:rgba(255,200,0,.08);border:1px solid rgba(255,200,0,.25);}
+.via-status.inviavel{background:rgba(255,95,95,.08);border:1px solid rgba(255,95,95,.25);}
+.via-status-icon{font-size:24px;flex-shrink:0;}
+.via-status-txt h4{font-size:13px;font-weight:700;margin-bottom:3px;}
+.via-status-txt p{font-size:11px;color:rgba(255,255,255,.5);line-height:1.5;}
+.via-status.competitivo .via-status-txt h4{color:#00ffa3;}
+.via-status.cuidado .via-status-txt h4{color:#ffc800;}
+.via-status.inviavel .via-status-txt h4{color:#ff5f5f;}
+.via-metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.via-metric{background:rgba(255,255,255,.03);border-radius:9px;padding:9px 12px;display:flex;flex-direction:column;gap:2px;}
+.via-metric span{font-size:9px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.4px;}
+.via-metric b{font-size:13px;font-weight:700;}
+.via-pending{text-align:center;padding:12px;font-size:12px;color:rgba(255,255,255,.3);border:1px dashed rgba(255,255,255,.1);border-radius:10px;}
+.via-calc-cta{width:100%;padding:11px;border:none;border-radius:10px;background:linear-gradient(90deg,#00ffa3,#5f9bff);color:#000;font-weight:700;font-size:13px;cursor:pointer;transition:.2s;}
+.via-calc-cta:hover{opacity:.88;transform:translateY(-1px);}
+
+/* ══════════════════════════════════════════════
+   NOVO: PLANEJAMENTO DE PRODUÇÃO
+══════════════════════════════════════════════ */
+.prod-plan-section{
+  margin-top:20px;border-radius:18px;overflow:hidden;
+  border:1px solid rgba(167,139,250,.2);
+  background:linear-gradient(145deg,#08060f,#050813);
+}
+.prod-plan-header{
+  padding:14px 20px;
+  background:linear-gradient(90deg,rgba(167,139,250,.1),rgba(95,155,255,.06));
+  border-bottom:1px solid rgba(255,255,255,.05);
+  display:flex;align-items:center;justify-content:space-between;cursor:pointer;
+}
+.prod-plan-header h3{font-size:14px;font-weight:700;color:#a78bfa;display:flex;align-items:center;gap:8px;}
+.prod-plan-toggle{font-size:16px;transition:transform .3s;color:rgba(255,255,255,.4);}
+.prod-plan-toggle.open{transform:rotate(180deg);}
+.prod-plan-body{padding:20px;display:none;}
+.prod-plan-body.open{display:block;}
+.prod-plan-selector{margin-bottom:16px;}
+.prod-plan-selector label{font-size:11px;color:rgba(255,255,255,.4);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px;}
+.prod-plan-selector select{width:100%;padding:9px 12px;background:#0b0f22;border:1px solid rgba(255,255,255,.1);border-radius:9px;color:#fff;font-size:12px;outline:none;}
+.prod-plan-selector select:focus{border-color:rgba(167,139,250,.4);}
+.prod-plan-inputs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.pp-field{background:#0b0f22;border-radius:10px;padding:10px;}
+.pp-field label{font-size:10px;color:rgba(255,255,255,.35);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px;}
+.pp-field input{width:100%;padding:7px 10px;background:#04060f;border:1px solid rgba(255,255,255,.08);border-radius:7px;color:#fff;font-size:13px;outline:none;}
+.pp-field input:focus{border-color:rgba(167,139,250,.4);}
+.pp-calc-btn{width:100%;padding:11px;border:none;border-radius:10px;background:linear-gradient(90deg,#a78bfa,#5f9bff);color:#fff;font-weight:700;font-size:13px;cursor:pointer;margin-bottom:14px;transition:.2s;}
+.pp-calc-btn:hover{opacity:.88;}
+.pp-results{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.pp-result{background:rgba(255,255,255,.04);border-radius:10px;padding:12px;text-align:center;}
+.pp-result span{font-size:9px;color:rgba(255,255,255,.35);display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px;}
+.pp-result b{font-size:16px;font-weight:800;}
+.pp-result b.hora{color:#a78bfa;}
+.pp-result b.fil{color:#00ffa3;}
+.pp-result b.ener{color:#fbbf24;}
+.pp-result b.fat{color:#5f9bff;}
+.pp-result b.lucro{color:#00ffa3;}
+.pp-result.full{grid-column:1/3;}
+.pp-alert{margin-top:12px;padding:10px 14px;border-radius:9px;font-size:11px;line-height:1.6;}
+.pp-alert.warn{background:rgba(255,200,0,.08);border:1px solid rgba(255,200,0,.2);color:#ffc800;}
+.pp-alert.good{background:rgba(0,255,163,.08);border:1px solid rgba(0,255,163,.2);color:#00ffa3;}
+.pp-empty{text-align:center;padding:20px;font-size:12px;color:rgba(255,255,255,.3);}
 </style>
 </head>
 <body>
 <div class="toast" id="toast"></div>
 <div class="wrapper">
 
-  <!-- ═══════════════ CALCULADORA ═══════════════ -->
+  <!-- ══════════════════════════════════════════
+       NOVO: PAINEL DE VIABILIDADE
+  ══════════════════════════════════════════ -->
+  <div id="viabilidade-panel" style="display:none;">
+    <div class="via-header">
+      <div class="via-header-icon">📡</div>
+      <div class="via-header-txt">
+        <h3>Painel de Viabilidade</h3>
+        <p id="via-nome-produto">Produto detectado do Analisador Shopee</p>
+      </div>
+      <span class="via-badge-src">🛍️ SHOPEE</span>
+    </div>
+    <div class="via-body">
+      <!-- Dados de mercado -->
+      <div class="via-mkt-row">
+        <div class="via-mkt-card">
+          <span>Preço de mercado</span>
+          <b id="via-preco-mkt" style="color:#00ffa3">—</b>
+        </div>
+        <div class="via-mkt-card">
+          <span>Vendas / 30d</span>
+          <b id="via-v30" style="color:#5f9bff">—</b>
+        </div>
+        <div class="via-mkt-card">
+          <span>Total vendido</span>
+          <b id="via-vtot" style="color:#a78bfa">—</b>
+        </div>
+      </div>
+
+      <!-- Status (atualizado após calcular) -->
+      <div id="via-status-box" class="via-pending">
+        ⬆️ Preencha seus custos acima e clique em <b>Calcular</b> para ver a viabilidade real
+      </div>
+
+      <!-- Métricas detalhadas (ocultas até calcular) -->
+      <div id="via-metrics-box" style="display:none;">
+        <div class="via-metrics">
+          <div class="via-metric">
+            <span>Seu custo de produção</span>
+            <b id="via-seu-custo" style="color:#fff">—</b>
+          </div>
+          <div class="via-metric">
+            <span>Margem se vender pelo preço de mercado</span>
+            <b id="via-margem-mkt">—</b>
+          </div>
+          <div class="via-metric">
+            <span>Break-even (unidades/mês p/ lucrar)</span>
+            <b id="via-breakeven" style="color:#fbbf24">—</b>
+          </div>
+          <div class="via-metric">
+            <span>Faturamento potencial / mês</span>
+            <b id="via-fat-potencial" style="color:#5f9bff">—</b>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botão de ação -->
+      <button class="via-calc-cta" onclick="calcular()">⚙️ Calcular minha viabilidade agora</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       CALCULADORA PRINCIPAL
+  ══════════════════════════════════════════ -->
   <div class="container">
     <div class="top">
       <div class="logo"><img src="img/LOGO.png" alt="GLM Studio Logo"></div>
@@ -262,7 +402,6 @@ td{padding:12px 5px;border-top:1px solid rgba(255,255,255,0.05);vertical-align:m
       <div class="metric"><span>Perdas</span><span id="rPerda">R$ 0,00</span></div>
       <div class="metric"><span><strong>Subtotal Custos</strong></span><span id="rSubtotal">R$ 0,00</span></div>
 
-      <!-- ── NOVO: Taxas Marketplace discriminadas ── -->
       <div class="sectionTitle" id="taxasSection" style="display:none">Taxas Marketplace</div>
       <div class="metric" id="taxaPercRow" style="display:none">
         <span>Taxa % sobre venda (<span id="rTaxaPercPct">0</span>%)</span>
@@ -292,24 +431,19 @@ td{padding:12px 5px;border-top:1px solid rgba(255,255,255,0.05);vertical-align:m
       <canvas id="costChart"></canvas>
     </div>
 
-    <!-- ★ TABELA DE MARGEM ─── -->
+    <!-- TABELA DE MARGEM -->
     <div class="margem-table-container" id="margemTableContainer" style="display:none;">
       <h4>Tabela de Preço por Margem <span class="pro-tag">PRO</span></h4>
       <table class="margem-table">
-        <thead>
-          <tr>
-            <th>Margem</th>
-            <th>Preço Venda</th>
-            <th>Lucro R$</th>
-            <th>Lucro %</th>
-          </tr>
-        </thead>
+        <thead><tr><th>Margem</th><th>Preço Venda</th><th>Lucro R$</th><th>Lucro %</th></tr></thead>
         <tbody id="margemTableBody"></tbody>
       </table>
     </div>
   </div>
 
-  <!-- ═══════════════ COMPARADOR DE CENÁRIOS ═══════════════ -->
+  <!-- ══════════════════════════════════════════
+       COMPARADOR DE CENÁRIOS
+  ══════════════════════════════════════════ -->
   <div class="container comparador-section" id="comparadorSection" style="display:none;">
     <div class="comparador-header">
       <h3>⚖️ Comparador de Cenários <span class="pro-tag">PRO</span></h3>
@@ -318,7 +452,95 @@ td{padding:12px 5px;border-top:1px solid rgba(255,255,255,0.05);vertical-align:m
     <div class="comp-grid" id="compGrid"></div>
   </div>
 
-  <!-- ═══════════════ HISTÓRICO ═══════════════ -->
+  <!-- ══════════════════════════════════════════
+       NOVO: PLANEJAMENTO DE PRODUÇÃO
+  ══════════════════════════════════════════ -->
+  <div class="prod-plan-section" id="prodPlanSection">
+    <div class="prod-plan-header" onclick="toggleProdPlan()">
+      <h3>📦 Planejamento de Produção <span class="pro-tag">PRO</span></h3>
+      <span class="prod-plan-toggle" id="ppToggle">▼</span>
+    </div>
+    <div class="prod-plan-body" id="ppBody">
+      <!-- Seletor de item salvo -->
+      <div class="prod-plan-selector">
+        <label>Produto base (da calculadora ou Shopee)</label>
+        <select id="ppItemSelect" onchange="ppCarregarItem()">
+          <option value="">— Selecionar item salvo —</option>
+        </select>
+      </div>
+
+      <!-- Dados do item selecionado (ou forma manual) -->
+      <div id="ppItemInfo" style="display:none;background:rgba(0,255,163,.05);border:1px solid rgba(0,255,163,.15);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:11px;color:#86efac;line-height:1.7;"></div>
+
+      <!-- Inputs de planejamento -->
+      <div class="prod-plan-inputs">
+        <div class="pp-field">
+          <label>Meta de vendas / semana</label>
+          <input type="number" id="ppMetaSemana" value="20" min="1">
+        </div>
+        <div class="pp-field">
+          <label>Horas disponíveis / dia</label>
+          <input type="number" id="ppHorasDia" value="8" min="1" max="24">
+        </div>
+        <div class="pp-field">
+          <label>Tempo impressão / unid (h)</label>
+          <input type="number" id="ppTempoProd" value="2" min="0.1" step="0.1">
+        </div>
+        <div class="pp-field">
+          <label>Peso por unid (g)</label>
+          <input type="number" id="ppPesoUnid" value="100" min="1">
+        </div>
+        <div class="pp-field">
+          <label>Preço de venda (R$)</label>
+          <input type="number" id="ppPrecoVenda" value="0" min="0">
+        </div>
+        <div class="pp-field">
+          <label>Custo por unid (R$)</label>
+          <input type="number" id="ppCustoUnid" value="0" min="0">
+        </div>
+      </div>
+
+      <button class="pp-calc-btn" onclick="calcularPlanejamento()">📊 Calcular Planejamento</button>
+
+      <div id="ppResults" style="display:none;">
+        <div class="pp-results">
+          <div class="pp-result">
+            <span>🕐 Horas impressão / semana</span>
+            <b class="hora" id="ppResHoras">—</b>
+          </div>
+          <div class="pp-result">
+            <span>🧵 Filamento / semana (kg)</span>
+            <b class="fil" id="ppResFil">—</b>
+          </div>
+          <div class="pp-result">
+            <span>⚡ Impressoras simultâneas necessárias</span>
+            <b class="hora" id="ppResImpress">—</b>
+          </div>
+          <div class="pp-result">
+            <span>📅 Dias para produzir o lote</span>
+            <b class="ener" id="ppResDias">—</b>
+          </div>
+          <div class="pp-result">
+            <span>💰 Faturamento / mês</span>
+            <b class="fat" id="ppResFat">—</b>
+          </div>
+          <div class="pp-result">
+            <span>✅ Lucro líquido / mês</span>
+            <b class="lucro" id="ppResLucro">—</b>
+          </div>
+          <div class="pp-result full">
+            <span>🧵 Filamento necessário / mês (kg)</span>
+            <b class="fil" id="ppResFilMes">—</b>
+          </div>
+        </div>
+        <div id="ppAlert" class="pp-alert" style="display:none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       HISTÓRICO
+  ══════════════════════════════════════════ -->
   <div class="history-section">
     <div class="sectionTitle">Resumo do Catálogo</div>
     <div class="dashboard-grid">
@@ -376,9 +598,13 @@ let costChart = null;
 let sortConfig = { key: null, asc: true };
 let comparadorItens = JSON.parse(localStorage.getItem("glm_comp") || "[]");
 
+// Dados do Painel de Viabilidade
+let viaData = null;
+
 // ─── UTILITÁRIOS ───
 function v(id){ return Number(document.getElementById(id).value) || 0; }
 function f(n){ return "R$ " + n.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function fN(n){ n=Math.round(n||0); return n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?(n/1e3).toFixed(1).replace('.0','')+'k':String(n); }
 function parseCurrency(str){
   if(!str) return 0;
   return parseFloat(str.replace("R$","").trim().replace(/\./g,"").replace(",",".")) || 0;
@@ -460,29 +686,26 @@ function calcular(){
   document.getElementById("rSubtotal").innerText    = f(c.subtotal);
 
   const loteRow = document.getElementById("loteRow");
-  if(qtd > 1){
-    loteRow.style.display = "flex";
-    document.getElementById("loteQtd").textContent = qtd;
-    document.getElementById("rCustoLote").textContent = f(c.subtotal*qtd);
-  } else { loteRow.style.display = "none"; }
+  if(qtd > 1){ loteRow.style.display="flex"; document.getElementById("loteQtd").textContent=qtd; document.getElementById("rCustoLote").textContent=f(c.subtotal*qtd); }
+  else { loteRow.style.display="none"; }
 
   atualizarResumo();
   atualizarGrafico(c);
   gerarTabelaMargem(c);
   salvarFormulario();
+
+  // Atualizar painel de viabilidade se ativo
+  if(viaData) atualizarViabilidade(c.subtotal, total);
 }
 
-// ─── ATUALIZAR RESUMO (com taxas discriminadas) ───
+// ─── ATUALIZAR RESUMO ───
 function atualizarResumo(){
   const preco = v("precoFinal");
   const c = calcularBase();
-
-  // ── NOVO: calcular cada taxa individualmente ──
   const taxaPercPct   = v("taxaPercentual");
   const taxaPercValor = preco * (taxaPercPct / 100);
   const taxaFixaValor = v("taxaFixa");
   const taxasTotal    = taxaPercValor + taxaFixaValor;
-
   const custoTotal = c.subtotal + taxasTotal;
   const lucro = preco - custoTotal;
   const pct = preco > 0 ? ((lucro / preco) * 100) : 0;
@@ -492,29 +715,14 @@ function atualizarResumo(){
   lucroEl.className = lucro < 0 ? "negative" : "";
   document.getElementById("rCustoTotalProducao").innerText = f(custoTotal);
 
-  // ── NOVO: mostrar/ocultar bloco de taxas ──
   const hasTaxa = taxasTotal > 0;
   document.getElementById("taxasSection").style.display   = hasTaxa ? "" : "none";
   document.getElementById("taxaTotalRow").style.display   = hasTaxa ? "" : "none";
-
-  if (taxaPercPct > 0) {
-    document.getElementById("taxaPercRow").style.display = "";
-    document.getElementById("rTaxaPercPct").textContent  = taxaPercPct;
-    document.getElementById("rTaxaPercValor").innerText  = f(taxaPercValor);
-  } else {
-    document.getElementById("taxaPercRow").style.display = "none";
-  }
-
-  if (taxaFixaValor > 0) {
-    document.getElementById("taxaFixaRow").style.display = "";
-    document.getElementById("rTaxaFixaValor").innerText  = f(taxaFixaValor);
-  } else {
-    document.getElementById("taxaFixaRow").style.display = "none";
-  }
-
-  if (hasTaxa) {
-    document.getElementById("rTaxasTotal").innerText = f(taxasTotal);
-  }
+  if (taxaPercPct > 0) { document.getElementById("taxaPercRow").style.display=""; document.getElementById("rTaxaPercPct").textContent=taxaPercPct; document.getElementById("rTaxaPercValor").innerText=f(taxaPercValor); }
+  else { document.getElementById("taxaPercRow").style.display="none"; }
+  if (taxaFixaValor > 0) { document.getElementById("taxaFixaRow").style.display=""; document.getElementById("rTaxaFixaValor").innerText=f(taxaFixaValor); }
+  else { document.getElementById("taxaFixaRow").style.display="none"; }
+  if (hasTaxa) document.getElementById("rTaxasTotal").innerText = f(taxasTotal);
 
   const badge = document.getElementById("profitBadge");
   if(preco<=0){ badge.textContent="—"; badge.className="profit-badge"; }
@@ -523,32 +731,24 @@ function atualizarResumo(){
   else { badge.textContent=`🔴 Margem ${pct.toFixed(1)}% — Baixo`; badge.className="profit-badge bad"; }
 }
 
-// ─── ★ TABELA DE MARGEM ───
+// ─── TABELA DE MARGEM ───
 function gerarTabelaMargem(custos){
   const subtotal = custos.subtotal;
   if(subtotal <= 0){ document.getElementById("margemTableContainer").style.display="none"; return; }
   document.getElementById("margemTableContainer").style.display="block";
-
   const margens = [0, 20, 30, 50, 80, 100, 120, 150, 200];
   const margemAtual = v("margem");
   const taxaPerc = v("taxaPercentual")/100;
   const taxaFixa = v("taxaFixa");
   const tbody = document.getElementById("margemTableBody");
   tbody.innerHTML = "";
-
   margens.forEach(m => {
     const preco = (subtotal*(1+m/100)/(1-(taxaPerc||0)||1))+taxaFixa;
     const lucroR = preco - subtotal - (preco*taxaPerc) - taxaFixa;
     const lucroPct = preco>0 ? (lucroR/preco)*100 : 0;
     const isAtual = Math.abs(m - margemAtual) < 0.01;
     const pctClass = lucroPct>=25?"good":lucroPct>=10?"warn":"bad";
-    tbody.innerHTML += `
-      <tr class="${isAtual?'highlight':''}">
-        <td>${m}%${isAtual?' ◀':''}</td>
-        <td class="price">${f(preco)}</td>
-        <td class="profit-val">${f(lucroR)}</td>
-        <td class="pct ${pctClass}">${lucroPct.toFixed(1)}%</td>
-      </tr>`;
+    tbody.innerHTML += `<tr class="${isAtual?'highlight':''}"><td>${m}%${isAtual?' ◀':''}</td><td class="price">${f(preco)}</td><td class="profit-val">${f(lucroR)}</td><td class="pct ${pctClass}">${lucroPct.toFixed(1)}%</td></tr>`;
   });
 }
 
@@ -563,15 +763,12 @@ function atualizarGrafico(custos){
   if(costChart){ costChart.destroy(); }
   costChart = new Chart(ctx,{
     type:"doughnut",
-    data:{
-      labels:filtered.map(x=>x.l),
-      datasets:[{data:filtered.map(x=>x.d),backgroundColor:["#00ffa3","#5f9bff","#a78bfa","#fbbf24","#f87171","#34d399","#60a5fa"],borderWidth:2,borderColor:"#05060d"}]
-    },
+    data:{ labels:filtered.map(x=>x.l), datasets:[{data:filtered.map(x=>x.d),backgroundColor:["#00ffa3","#5f9bff","#a78bfa","#fbbf24","#f87171","#34d399","#60a5fa"],borderWidth:2,borderColor:"#05060d"}] },
     options:{plugins:{legend:{position:"bottom",labels:{color:"#fff",font:{size:11},padding:10,boxWidth:12}},tooltip:{callbacks:{label:ctx=>` ${ctx.label}: ${f(ctx.raw)}`}}}}
   });
 }
 
-// ─── ★ COMPARADOR DE CENÁRIOS ───
+// ─── COMPARADOR ───
 function adicionarAoComparador(){
   if(v("precoFinal")<=0){ showToast("⚠️ Calcule primeiro!","#ef4444"); return; }
   if(comparadorItens.length>=3){ showToast("⚠️ Máximo 3 cenários!","#ffc800"); return; }
@@ -582,76 +779,44 @@ function adicionarAoComparador(){
   const custoTotal = c.subtotal+taxasTotal;
   const lucro = preco-custoTotal;
   const lucroPct = preco>0?((lucro/preco)*100):0;
-
   comparadorItens.push({ nome, custo:custoTotal, venda:preco, lucro, lucroPct, margem:v("margem") });
   localStorage.setItem("glm_comp", JSON.stringify(comparadorItens));
   renderComparador();
   showToast("⚖️ Cenário adicionado ao comparador!");
 }
-
-function removerCenario(i){
-  comparadorItens.splice(i,1);
-  localStorage.setItem("glm_comp", JSON.stringify(comparadorItens));
-  renderComparador();
-}
-
-function limparComparador(){
-  comparadorItens=[];
-  localStorage.setItem("glm_comp","[]");
-  renderComparador();
-}
-
+function removerCenario(i){ comparadorItens.splice(i,1); localStorage.setItem("glm_comp", JSON.stringify(comparadorItens)); renderComparador(); }
+function limparComparador(){ comparadorItens=[]; localStorage.setItem("glm_comp","[]"); renderComparador(); }
 function renderComparador(){
   const sec = document.getElementById("comparadorSection");
   const grid = document.getElementById("compGrid");
   if(comparadorItens.length===0){ sec.style.display="none"; return; }
   sec.style.display="block";
-
   const maxLucro = Math.max(...comparadorItens.map(x=>x.lucroPct));
   const minLucro = Math.min(...comparadorItens.map(x=>x.lucroPct));
-
   let html = "";
   comparadorItens.forEach((item,i)=>{
     const badgeClass = item.lucroPct===maxLucro?"best":item.lucroPct===minLucro?"low":"mid";
     const badgeLabel = item.lucroPct===maxLucro?"✅ Melhor":item.lucroPct===minLucro?"⚠️ Menor":"🔵 Médio";
-    html += `
-      <div class="comp-card active">
-        <button class="comp-remove" onclick="removerCenario(${i})">✕</button>
-        <div class="comp-card-name">${item.nome}</div>
-        <div class="comp-card-row"><span>Custo</span><span>${f(item.custo)}</span></div>
-        <div class="comp-card-row"><span>Venda</span><span>${f(item.venda)}</span></div>
-        <div class="comp-card-row"><span>Lucro R$</span><span>${f(item.lucro)}</span></div>
-        <div class="comp-card-row"><span>Margem</span><span>${item.margem}%</span></div>
-        <span class="comp-badge ${badgeClass}">${badgeLabel} ${item.lucroPct.toFixed(1)}%</span>
-      </div>`;
+    html += `<div class="comp-card active"><button class="comp-remove" onclick="removerCenario(${i})">✕</button><div class="comp-card-name">${item.nome}</div><div class="comp-card-row"><span>Custo</span><span>${f(item.custo)}</span></div><div class="comp-card-row"><span>Venda</span><span>${f(item.venda)}</span></div><div class="comp-card-row"><span>Lucro R$</span><span>${f(item.lucro)}</span></div><div class="comp-card-row"><span>Margem</span><span>${item.margem}%</span></div><span class="comp-badge ${badgeClass}">${badgeLabel} ${item.lucroPct.toFixed(1)}%</span></div>`;
   });
-  for(let i=comparadorItens.length; i<3; i++){
-    html += `<div class="comp-card empty">+ Adicionar<br>cenário</div>`;
-  }
+  for(let i=comparadorItens.length; i<3; i++) html += `<div class="comp-card empty">+ Adicionar<br>cenário</div>`;
   grid.innerHTML = html;
 }
 
 // ─── TECLADO ───
-document.addEventListener("keydown",function(e){
-  if(e.key==="Enter"&&e.target.tagName==="INPUT"&&e.target.type!=="button") calcular();
-});
+document.addEventListener("keydown",function(e){ if(e.key==="Enter"&&e.target.tagName==="INPUT"&&e.target.type!=="button") calcular(); });
 document.getElementById("precoFinal").addEventListener("input", atualizarResumo);
 
 // ─── COPIAR ───
 function copiarPreco(){
   const val = document.getElementById("precoFinal").value;
-  navigator.clipboard.writeText(val).then(()=>{
-    showToast("✅ Preço copiado: "+f(Number(val)));
-  }).catch(()=> showToast("Erro ao copiar","#ef4444"));
+  navigator.clipboard.writeText(val).then(()=>{ showToast("✅ Preço copiado: "+f(Number(val))); }).catch(()=> showToast("Erro ao copiar","#ef4444"));
 }
 
 // ─── RESET ───
 const DEFAULTS = { energia:"0.97",margem:"100",perda:"0",taxaPercentual:"0",taxaFixa:"0",valorMaquina:"2000",vidaUtil:"5000",quantidade:"1" };
 function resetar(){
-  document.querySelectorAll(".grid input,.grid textarea,#precoFinal").forEach(el=>{
-    el.value = DEFAULTS[el.id]!==undefined?DEFAULTS[el.id]:"";
-    el.classList.remove("invalid");
-  });
+  document.querySelectorAll(".grid input,.grid textarea,#precoFinal").forEach(el=>{ el.value = DEFAULTS[el.id]!==undefined?DEFAULTS[el.id]:""; el.classList.remove("invalid"); });
   document.getElementById("precoFinal").value="0";
   removerFoto();
   editingIndex=null;
@@ -661,7 +826,6 @@ function resetar(){
   document.getElementById("margemTableContainer").style.display="none";
   document.getElementById("profitBadge").textContent="—";
   document.getElementById("profitBadge").className="profit-badge";
-  // Ocultar bloco de taxas
   document.getElementById("taxasSection").style.display="none";
   document.getElementById("taxaPercRow").style.display="none";
   document.getElementById("taxaFixaRow").style.display="none";
@@ -689,12 +853,7 @@ FORM_FIELDS.forEach(id=>{ const el=document.getElementById(id); if(el) el.addEve
 // ─── DASHBOARD ───
 function atualizarDashboard(historico){
   let custoTotal=0, vendaTotal=0, estoqueTotal=0;
-  historico.forEach(item=>{
-    custoTotal += parseCurrency(item.custo);
-    vendaTotal += parseCurrency(item.venda);
-    const qtdEstoque = parseInt(item.estoque)||0;
-    estoqueTotal += parseCurrency(item.venda)*qtdEstoque;
-  });
+  historico.forEach(item=>{ custoTotal+=parseCurrency(item.custo); vendaTotal+=parseCurrency(item.venda); estoqueTotal+=parseCurrency(item.venda)*(parseInt(item.estoque)||0); });
   const lucroTotal=vendaTotal-custoTotal;
   document.getElementById("dashTotalItens").innerText=historico.length;
   document.getElementById("dashCustoTotal").innerText=f(custoTotal);
@@ -711,10 +870,7 @@ function sortTable(key){
   renderTabela();
 }
 function filtrarTabela(){ renderTabela(); }
-function calcLucroItem(item){
-  const venda=parseCurrency(item.venda), custo=parseCurrency(item.custo);
-  if(!venda) return 0; return ((venda-custo)/venda)*100;
-}
+function calcLucroItem(item){ const venda=parseCurrency(item.venda), custo=parseCurrency(item.custo); if(!venda) return 0; return ((venda-custo)/venda)*100; }
 
 // ─── SALVAR NO HISTÓRICO ───
 function salvarNoHistorico(){
@@ -723,24 +879,23 @@ function salvarNoHistorico(){
   if(!nome){ showToast("⚠️ Informe o nome do item!","#ef4444"); return; }
   const custoEl=document.getElementById("rCustoTotalProducao").innerText;
   const venda="R$ "+Number(v("precoFinal")).toLocaleString("pt-BR",{minimumFractionDigits:2});
-  const item={ nome, descricao, foto:fotoAtualBase64, custo:custoEl, venda, estoque:0 };
+  // Salvar dados de produção para Planejamento
+  const item={
+    nome, descricao, foto:fotoAtualBase64, custo:custoEl, venda, estoque:0,
+    _prod:{ tempo:v("tempo"), peso:v("peso"), potencia:v("potencia"), filamento:v("filamento") }
+  };
   let historico=JSON.parse(localStorage.getItem("glm_data")||"[]");
-  if(editingIndex!==null){
-    item.estoque = historico[editingIndex].estoque || 0;
-    historico[editingIndex]=item; editingIndex=null;
-    document.getElementById("editingBadge").classList.remove("active");
-    showToast("✏️ Item atualizado!");
-  } else {
-    historico.push(item); showToast("💾 Precificação salva!");
-  }
+  if(editingIndex!==null){ item.estoque=historico[editingIndex].estoque||0; historico[editingIndex]=item; editingIndex=null; document.getElementById("editingBadge").classList.remove("active"); showToast("✏️ Item atualizado!"); }
+  else { historico.push(item); showToast("💾 Precificação salva!"); }
   localStorage.setItem("glm_data",JSON.stringify(historico));
   carregarTabela();
   document.getElementById("nomeItem").value="";
   document.getElementById("descricaoItem").value="";
   removerFoto(); salvarFormulario();
+  ppPopularSelect(); // Atualizar seletor do planejamento
 }
 
-// ─── ★ ESTOQUE: ATUALIZAR QUANTIDADE ───
+// ─── ESTOQUE ───
 function atualizarEstoque(origIdx, val){
   let historico=JSON.parse(localStorage.getItem("glm_data")||"[]");
   historico[origIdx].estoque = parseInt(val)||0;
@@ -750,64 +905,24 @@ function atualizarEstoque(origIdx, val){
 
 // ─── RENDER TABELA ───
 function carregarTabela(){ renderTabela(); const historico=JSON.parse(localStorage.getItem("glm_data")||"[]"); atualizarDashboard(historico); }
-
 function renderTabela(){
   let historico=JSON.parse(localStorage.getItem("glm_data")||"[]");
   const query=(document.getElementById("searchInput")?.value||"").toLowerCase();
   let filtered = query ? historico.filter(item=> item.nome.toLowerCase().includes(query)||(item.descricao||"").toLowerCase().includes(query)) : historico;
-
   let sorted = [...filtered];
-  if(sortConfig.key){
-    sorted.sort((a,b)=>{
-      let va,vb;
-      if(sortConfig.key==="nome"){ va=a.nome.toLowerCase(); vb=b.nome.toLowerCase(); }
-      else if(sortConfig.key==="custo"){ va=parseCurrency(a.custo); vb=parseCurrency(b.custo); }
-      else if(sortConfig.key==="venda"){ va=parseCurrency(a.venda); vb=parseCurrency(b.venda); }
-      else if(sortConfig.key==="lucro"){ va=calcLucroItem(a); vb=calcLucroItem(b); }
-      if(va<vb) return sortConfig.asc?-1:1; if(va>vb) return sortConfig.asc?1:-1; return 0;
-    });
-  }
-
+  if(sortConfig.key){ sorted.sort((a,b)=>{ let va,vb; if(sortConfig.key==="nome"){va=a.nome.toLowerCase();vb=b.nome.toLowerCase();}else if(sortConfig.key==="custo"){va=parseCurrency(a.custo);vb=parseCurrency(b.custo);}else if(sortConfig.key==="venda"){va=parseCurrency(a.venda);vb=parseCurrency(b.venda);}else if(sortConfig.key==="lucro"){va=calcLucroItem(a);vb=calcLucroItem(b);} if(va<vb)return sortConfig.asc?-1:1;if(va>vb)return sortConfig.asc?1:-1;return 0; }); }
   const tbody=document.getElementById("tabelaBody");
-  if(sorted.length===0){
-    tbody.innerHTML=`<tr><td colspan="7"><div class="empty-state"><div>📦</div>Nenhum item encontrado</div></td></tr>`;
-    return;
-  }
-
+  if(sorted.length===0){ tbody.innerHTML=`<tr><td colspan="7"><div class="empty-state"><div>📦</div>Nenhum item encontrado</div></td></tr>`; return; }
   const original=JSON.parse(localStorage.getItem("glm_data")||"[]");
   tbody.innerHTML="";
   sorted.forEach((item)=>{
     const origIdx=original.findIndex(o=>o.nome===item.nome&&o.venda===item.venda&&o.custo===item.custo);
     const descHtml=item.descricao?`<br><small style="opacity:0.6">${item.descricao}</small>`:"";
-    const imgHtml=item.foto
-      ?`<img src="${item.foto}" class="thumb-history">`
-      :`<div style="width:40px;height:40px;background:#1f2937;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;opacity:0.5;">S/F</div>`;
+    const imgHtml=item.foto?`<img src="${item.foto}" class="thumb-history">`:`<div style="width:40px;height:40px;background:#1f2937;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;opacity:0.5;">S/F</div>`;
     const lucro=calcLucroItem(item);
     const pillClass=lucro>=25?"good":lucro>=10?"warn":"bad";
     const estoque=item.estoque||0;
-    tbody.innerHTML+=`
-      <tr>
-        <td>${imgHtml}</td>
-        <td><strong>${item.nome}</strong>${descHtml}</td>
-        <td>${item.custo}</td>
-        <td>${item.venda}</td>
-        <td><span class="profit-pill ${pillClass}">${lucro.toFixed(1)}%</span></td>
-        <td>
-          <input class="stock-input" type="number" min="0" value="${estoque}"
-            onchange="atualizarEstoque(${origIdx},this.value)"
-            title="Quantidade em estoque">
-          <span class="stock-label">unid.</span>
-        </td>
-        <td>
-          <div class="action-cell">
-            <button class="action-btn" onclick="gerarPDF(${origIdx})" title="PDF">📄</button>
-            <button class="action-btn" onclick="enviarWhatsApp(${origIdx})" title="WhatsApp">🟢</button>
-            <button class="action-btn edit-btn" onclick="editarItem(${origIdx})" title="Editar">✏️</button>
-            <button class="action-btn" onclick="duplicarItem(${origIdx})" title="Duplicar">📋</button>
-            <button class="action-btn del-btn" onclick="excluirItem(${origIdx})" title="Excluir">🗑️</button>
-          </div>
-        </td>
-      </tr>`;
+    tbody.innerHTML+=`<tr><td>${imgHtml}</td><td><strong>${item.nome}</strong>${descHtml}</td><td>${item.custo}</td><td>${item.venda}</td><td><span class="profit-pill ${pillClass}">${lucro.toFixed(1)}%</span></td><td><input class="stock-input" type="number" min="0" value="${estoque}" onchange="atualizarEstoque(${origIdx},this.value)" title="Quantidade em estoque"><span class="stock-label">unid.</span></td><td><div class="action-cell"><button class="action-btn" onclick="gerarPDF(${origIdx})" title="PDF">📄</button><button class="action-btn" onclick="enviarWhatsApp(${origIdx})" title="WhatsApp">🟢</button><button class="action-btn edit-btn" onclick="editarItem(${origIdx})" title="Editar">✏️</button><button class="action-btn" onclick="duplicarItem(${origIdx})" title="Duplicar">📋</button><button class="action-btn del-btn" onclick="excluirItem(${origIdx})" title="Excluir">🗑️</button></div></td></tr>`;
   });
 }
 
@@ -817,19 +932,19 @@ async function gerarPDF(index){
   const item=historico[index];
   const {jsPDF}=window.jspdf;
   const doc=new jsPDF();
-  doc.setFillColor(15,43,47); doc.rect(0,0,210,40,'F');
-  doc.setTextColor(0,255,163); doc.setFontSize(20); doc.text("GLM STUDIO",20,22);
-  doc.setFontSize(11); doc.setTextColor(200,200,200); doc.text("Orçamento de Produto",20,32);
+  doc.setFillColor(15,43,47);doc.rect(0,0,210,40,'F');
+  doc.setTextColor(0,255,163);doc.setFontSize(20);doc.text("GLM STUDIO",20,22);
+  doc.setFontSize(11);doc.setTextColor(200,200,200);doc.text("Orçamento de Produto",20,32);
   const hoje=new Date().toLocaleDateString("pt-BR");
-  doc.setFontSize(10); doc.setTextColor(150,150,150); doc.text(`Gerado em: ${hoje}`,150,32);
-  doc.setTextColor(0,0,0); doc.setFontSize(16); doc.text(`Produto: ${item.nome}`,20,58);
+  doc.setFontSize(10);doc.setTextColor(150,150,150);doc.text(`Gerado em: ${hoje}`,150,32);
+  doc.setTextColor(0,0,0);doc.setFontSize(16);doc.text(`Produto: ${item.nome}`,20,58);
   doc.setFontSize(12);
-  if(item.descricao){ const splitDesc=doc.splitTextToSize(item.descricao,170); doc.text(splitDesc,20,70); }
+  if(item.descricao){ const splitDesc=doc.splitTextToSize(item.descricao,170);doc.text(splitDesc,20,70); }
   if(item.foto){ try{ doc.addImage(item.foto,'JPEG',20,85,60,60); }catch(e){} }
-  doc.setFontSize(13); doc.setTextColor(60,60,60); doc.text(`Custo de Produção: ${item.custo}`,20,160);
-  doc.setFontSize(20); doc.setTextColor(0,130,90); doc.text(`Valor: ${item.venda}`,20,175);
+  doc.setFontSize(13);doc.setTextColor(60,60,60);doc.text(`Custo de Produção: ${item.custo}`,20,160);
+  doc.setFontSize(20);doc.setTextColor(0,130,90);doc.text(`Valor: ${item.venda}`,20,175);
   const lucro=calcLucroItem(item);
-  doc.setFontSize(11); doc.setTextColor(100,100,100); doc.text(`Margem sobre venda: ${lucro.toFixed(1)}%`,20,188);
+  doc.setFontSize(11);doc.setTextColor(100,100,100);doc.text(`Margem sobre venda: ${lucro.toFixed(1)}%`,20,188);
   if(item.estoque>0){ doc.text(`Estoque atual: ${item.estoque} unidades`,20,200); }
   doc.save(`Orcamento_${item.nome.replace(/\s+/g,"_")}.pdf`);
   showToast("📄 PDF Gerado!");
@@ -846,13 +961,7 @@ function enviarWhatsApp(index){
 }
 
 // ─── EXCLUIR / EDITAR / DUPLICAR ───
-function excluirItem(index){
-  if(!confirm("Excluir item?")) return;
-  let historico=JSON.parse(localStorage.getItem("glm_data")||"[]");
-  historico.splice(index,1);
-  localStorage.setItem("glm_data",JSON.stringify(historico));
-  carregarTabela(); showToast("🗑️ Item excluído","#ef4444");
-}
+function excluirItem(index){ if(!confirm("Excluir item?"))return; let historico=JSON.parse(localStorage.getItem("glm_data")||"[]"); historico.splice(index,1); localStorage.setItem("glm_data",JSON.stringify(historico)); carregarTabela(); showToast("🗑️ Item excluído","#ef4444"); }
 function editarItem(index){
   const historico=JSON.parse(localStorage.getItem("glm_data")||"[]");
   const item=historico[index]; editingIndex=index;
@@ -862,28 +971,18 @@ function editarItem(index){
   else removerFoto();
   const precoNum=item.venda.replace("R$","").trim().replace(/\./g,"").replace(",",".");
   document.getElementById("precoFinal").value=parseFloat(precoNum)||0;
+  // Restaurar dados de produção se disponíveis
+  if(item._prod){ document.getElementById("tempo").value=item._prod.tempo||""; document.getElementById("peso").value=item._prod.peso||""; document.getElementById("potencia").value=item._prod.potencia||""; document.getElementById("filamento").value=item._prod.filamento||""; }
   document.getElementById("editingBadge").classList.add("active");
   window.scrollTo({top:0,behavior:"smooth"});
   showToast("✏️ Item carregado para edição");
 }
-function duplicarItem(index){
-  const historico=JSON.parse(localStorage.getItem("glm_data")||"[]");
-  const item={...historico[index],nome:historico[index].nome+" (cópia)"};
-  historico.push(item);
-  localStorage.setItem("glm_data",JSON.stringify(historico));
-  carregarTabela(); showToast("📋 Item duplicado!");
-}
+function duplicarItem(index){ const historico=JSON.parse(localStorage.getItem("glm_data")||"[]"); const item={...historico[index],nome:historico[index].nome+" (cópia)"}; historico.push(item); localStorage.setItem("glm_data",JSON.stringify(historico)); carregarTabela(); showToast("📋 Item duplicado!"); }
 
 // ─── EXPORTAR EXCEL ───
 function exportarExcel(){
   const historico=JSON.parse(localStorage.getItem("glm_data")||"[]");
-  const dados=historico.map(item=>({
-    "Item":item.nome,"Descrição":item.descricao||"",
-    "Custo":item.custo,"Venda":item.venda,
-    "Lucro %":calcLucroItem(item).toFixed(1)+"%",
-    "Estoque":item.estoque||0,
-    "Valor Estoque":f(parseCurrency(item.venda)*(item.estoque||0))
-  }));
+  const dados=historico.map(item=>({ "Item":item.nome,"Descrição":item.descricao||"","Custo":item.custo,"Venda":item.venda,"Lucro %":calcLucroItem(item).toFixed(1)+"%","Estoque":item.estoque||0,"Valor Estoque":f(parseCurrency(item.venda)*(item.estoque||0)) }));
   const ws=XLSX.utils.json_to_sheet(dados);
   const wb=XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb,ws,"Precificações");
@@ -891,49 +990,194 @@ function exportarExcel(){
 }
 
 // ─── BACKUP ───
-function baixarBackup(){
-  const blob=new Blob([localStorage.getItem("glm_data")],{type:"application/json"});
-  const url=URL.createObjectURL(blob);
-  const link=document.createElement("a");
-  link.download=`Perfil_GLM_${new Date().toISOString().slice(0,10)}.json`;
-  link.href=url; link.click();
-}
-function carregarBackup(event){
-  const reader=new FileReader();
-  reader.onload=function(e){
-    try{
-      JSON.parse(e.target.result);
-      localStorage.setItem("glm_data",e.target.result);
-      carregarTabela(); showToast("📂 Perfil carregado!");
-    }catch{ showToast("❌ Arquivo inválido","#ef4444"); }
-  };
-  reader.readAsText(event.target.files[0]);
+function baixarBackup(){ const blob=new Blob([localStorage.getItem("glm_data")],{type:"application/json"}); const url=URL.createObjectURL(blob); const link=document.createElement("a"); link.download=`Perfil_GLM_${new Date().toISOString().slice(0,10)}.json`; link.href=url; link.click(); }
+function carregarBackup(event){ const reader=new FileReader(); reader.onload=function(e){ try{ JSON.parse(e.target.result); localStorage.setItem("glm_data",e.target.result); carregarTabela(); showToast("📂 Perfil carregado!"); }catch{ showToast("❌ Arquivo inválido","#ef4444"); } }; reader.readAsText(event.target.files[0]); }
+
+// ─── LINK SYNC ───
+function gerarLinkSync(){ const dados=localStorage.getItem("glm_data")||"[]"; try{ const encoded=btoa(unescape(encodeURIComponent(dados))); const url=window.location.origin+window.location.pathname+"?glmdata="+encoded; navigator.clipboard.writeText(url).then(()=>{ showToast("🔗 Link copiado! Compartilhe para sincronizar."); }); }catch{ showToast("❌ Erro ao gerar link","#ef4444"); } }
+function verificarLinkSync(){ const params=new URLSearchParams(window.location.search); const glmdata=params.get("glmdata"); if(glmdata){ try{ const decoded=decodeURIComponent(escape(atob(glmdata))); JSON.parse(decoded); if(confirm("📂 Encontramos dados no link. Deseja carregar o perfil compartilhado?")){ localStorage.setItem("glm_data",decoded); carregarTabela(); showToast("📂 Perfil sincronizado!"); window.history.replaceState({},"",window.location.pathname); } }catch{ console.log("Link inválido"); } } }
+
+/* ════════════════════════════════════════════════════
+   NOVO — PAINEL DE VIABILIDADE
+════════════════════════════════════════════════════ */
+function detectarViabilidade(){
+  const params = new URLSearchParams(window.location.search);
+  const preco  = parseFloat(params.get("preco")) || 0;
+  const v30    = parseInt(params.get("v30"))     || 0;
+  const vtot   = parseInt(params.get("vtot"))    || 0;
+  const nome   = params.get("nome")              || "Produto da Shopee";
+
+  if(!preco) return; // Nenhum dado de viabilidade
+
+  viaData = { preco, v30, vtot, nome };
+
+  // Pré-preencher o preço final com o do mercado
+  document.getElementById("precoFinal").value = preco.toFixed(2);
+  document.getElementById("nomeItem").value   = nome.slice(0,60);
+
+  // Preencher painel
+  document.getElementById("via-nome-produto").textContent = nome.length > 50 ? nome.slice(0,47)+"..." : nome;
+  document.getElementById("via-preco-mkt").textContent    = "R$ "+preco.toLocaleString("pt-BR",{minimumFractionDigits:2});
+  document.getElementById("via-v30").textContent          = v30>0 ? fN(v30)+"/mês" : "N/D";
+  document.getElementById("via-vtot").textContent         = vtot>0 ? fN(vtot) : "N/D";
+  document.getElementById("viabilidade-panel").style.display = "block";
+
+  // Limpar hash da URL
+  history.replaceState(null,"",window.location.pathname);
 }
 
-// ─── ★ LINK SYNC ───
-function gerarLinkSync(){
-  const dados=localStorage.getItem("glm_data")||"[]";
-  try{
-    const encoded=btoa(unescape(encodeURIComponent(dados)));
-    const url=window.location.origin+window.location.pathname+"?glmdata="+encoded;
-    navigator.clipboard.writeText(url).then(()=>{
-      showToast("🔗 Link copiado! Compartilhe para sincronizar.");
-    });
-  }catch{ showToast("❌ Erro ao gerar link","#ef4444"); }
+function atualizarViabilidade(custoProducao, precoSugerido){
+  if(!viaData) return;
+  const mktPreco = viaData.preco;
+  const v30      = viaData.v30;
+
+  // Calcular margem se vender pelo preço de mercado
+  const taxaPerc   = v("taxaPercentual")/100;
+  const taxaFixa   = v("taxaFixa");
+  const taxasSobreMkt = mktPreco*taxaPerc + taxaFixa;
+  const lucroMkt   = mktPreco - custoProducao - taxasSobreMkt;
+  const margemMkt  = mktPreco>0 ? (lucroMkt/mktPreco*100) : 0;
+
+  // Break-even: quantas unidades para cobrir custo fixo mensal (usando custo como referência)
+  const breakEven  = lucroMkt>0 ? Math.ceil(custoProducao / lucroMkt) : 999;
+
+  // Faturamento potencial: se capturar 5% das vendas/mês do mercado
+  const fatPotencial = v30>0 ? Math.round(v30*0.05) * mktPreco : 0;
+
+  // Status
+  let statusClass, statusIcon, statusTitle, statusDesc;
+  if(margemMkt >= 20){
+    statusClass="competitivo"; statusIcon="✅";
+    statusTitle="Produto Competitivo!";
+    statusDesc=`Você consegue margem de ${margemMkt.toFixed(1)}% vendendo no preço de mercado. Há espaço para lucro.`;
+  } else if(margemMkt >= 5){
+    statusClass="cuidado"; statusIcon="⚠️";
+    statusTitle="Margem Apertada — Cuidado";
+    statusDesc=`Margem de ${margemMkt.toFixed(1)}% é viável mas arriscada. Considere reduzir custos ou focar em volume.`;
+  } else {
+    statusClass="inviavel"; statusIcon="🔴";
+    statusTitle="Difícil Competir Neste Preço";
+    statusDesc=`Margem de ${margemMkt.toFixed(1)}% é insuficiente. Considere produto premium ou nicho diferente.`;
+  }
+
+  document.getElementById("via-status-box").outerHTML = `
+    <div id="via-status-box" class="via-status ${statusClass}">
+      <div class="via-status-icon">${statusIcon}</div>
+      <div class="via-status-txt"><h4>${statusTitle}</h4><p>${statusDesc}</p></div>
+    </div>`;
+
+  document.getElementById("via-metrics-box").style.display="block";
+  document.getElementById("via-seu-custo").textContent  = f(custoProducao);
+  const margemEl = document.getElementById("via-margem-mkt");
+  margemEl.textContent = margemMkt.toFixed(1)+"%";
+  margemEl.style.color = margemMkt>=20?"#00ffa3":margemMkt>=5?"#ffc800":"#ff5f5f";
+  document.getElementById("via-breakeven").textContent  = breakEven<999 ? breakEven+" unid." : "Inviável";
+  document.getElementById("via-fat-potencial").textContent = fatPotencial>0 ? f(fatPotencial)+"/mês*" : "N/D";
 }
-function verificarLinkSync(){
-  const params=new URLSearchParams(window.location.search);
-  const glmdata=params.get("glmdata");
-  if(glmdata){
-    try{
-      const decoded=decodeURIComponent(escape(atob(glmdata)));
-      JSON.parse(decoded);
-      if(confirm("📂 Encontramos dados no link. Deseja carregar o perfil compartilhado?")){
-        localStorage.setItem("glm_data",decoded);
-        carregarTabela(); showToast("📂 Perfil sincronizado!");
-        window.history.replaceState({},"",window.location.pathname);
-      }
-    }catch{ console.log("Link inválido"); }
+
+/* ════════════════════════════════════════════════════
+   NOVO — PLANEJAMENTO DE PRODUÇÃO
+════════════════════════════════════════════════════ */
+function toggleProdPlan(){
+  const body   = document.getElementById("ppBody");
+  const toggle = document.getElementById("ppToggle");
+  const isOpen = body.classList.contains("open");
+  body.classList.toggle("open");
+  toggle.classList.toggle("open");
+  if(!isOpen) ppPopularSelect();
+}
+
+function ppPopularSelect(){
+  const sel = document.getElementById("ppItemSelect");
+  const historico = JSON.parse(localStorage.getItem("glm_data")||"[]");
+  // Também tentar ler sessões do Analisador (mesmo domínio)
+  let bmItems = [];
+  try{
+    const bmHist = JSON.parse(localStorage.getItem("glm_bm_historico")||"[]");
+    if(bmHist.length && bmHist[0].top){
+      bmItems = bmHist[0].top.slice(0,3).map(p=>({ nome:"[Shopee] "+p.nome.slice(0,30), venda:"R$ "+Number(p.preco).toLocaleString("pt-BR",{minimumFractionDigits:2}), custo:"R$ 0,00", _shopee:true, _preco:p.preco, _v30:p.v30 }));
+    }
+  }catch(e){}
+
+  const todos = [...historico, ...bmItems];
+  sel.innerHTML = '<option value="">— Selecionar item —</option>';
+  todos.forEach((item,i)=>{
+    const opt = document.createElement("option");
+    opt.value = i;
+    opt.textContent = item.nome + " · " + item.venda;
+    sel.appendChild(opt);
+  });
+  sel._todos = todos;
+}
+
+function ppCarregarItem(){
+  const sel = document.getElementById("ppItemSelect");
+  const idx = parseInt(sel.value);
+  if(isNaN(idx)||!sel._todos) return;
+  const item = sel._todos[idx];
+  const infoEl = document.getElementById("ppItemInfo");
+
+  // Preencher campos com dados do item
+  const preco = parseCurrency(item.venda);
+  const custo = parseCurrency(item.custo);
+  document.getElementById("ppPrecoVenda").value = preco.toFixed(2);
+  document.getElementById("ppCustoUnid").value  = custo.toFixed(2);
+
+  // Dados de produção se disponíveis
+  if(item._prod){
+    document.getElementById("ppTempoProd").value = item._prod.tempo || 2;
+    document.getElementById("ppPesoUnid").value  = item._prod.peso  || 100;
+  }
+
+  let infoHtml = `<b>${item.nome}</b><br>`;
+  if(item._shopee) infoHtml += `🛍️ Produto do Analisador Shopee | Preço de mercado: R$ ${preco.toFixed(2).replace(".",",")}`;
+  else infoHtml += `Custo: ${item.custo} | Preço de venda: ${item.venda}`;
+  if(item._v30) infoHtml += ` | ${fN(item._v30)} vendas/mês`;
+  infoEl.innerHTML = infoHtml;
+  infoEl.style.display = "block";
+}
+
+function calcularPlanejamento(){
+  const meta        = Math.max(1, parseInt(document.getElementById("ppMetaSemana").value)||20);
+  const horasDia    = Math.max(1, parseFloat(document.getElementById("ppHorasDia").value)||8);
+  const tempoProd   = Math.max(0.1, parseFloat(document.getElementById("ppTempoProd").value)||2);
+  const pesoUnid    = Math.max(1, parseFloat(document.getElementById("ppPesoUnid").value)||100);
+  const precoVenda  = parseFloat(document.getElementById("ppPrecoVenda").value)||0;
+  const custoUnid   = parseFloat(document.getElementById("ppCustoUnid").value)||0;
+
+  // Cálculos semanais
+  const horasSemana  = meta * tempoProd;
+  const filSemana    = (meta * pesoUnid) / 1000;  // kg
+  const diasProd     = horasSemana / horasDia;
+  const impressorasNec = Math.ceil(diasProd / 7);  // impressoras para fazer em 1 semana
+
+  // Cálculos mensais (4.3 semanas)
+  const filMes       = filSemana * 4.3;
+  const fatMes       = meta * 4.3 * precoVenda;
+  const lucroMes     = meta * 4.3 * (precoVenda - custoUnid);
+
+  document.getElementById("ppResHoras").textContent     = horasSemana.toFixed(1)+"h/sem";
+  document.getElementById("ppResFil").textContent       = filSemana.toFixed(2)+"kg/sem";
+  document.getElementById("ppResImpress").textContent   = impressorasNec+" impressora"+(impressorasNec>1?"s":"");
+  document.getElementById("ppResDias").textContent      = diasProd.toFixed(1)+" dias";
+  document.getElementById("ppResFat").textContent       = precoVenda>0 ? f(fatMes) : "—";
+  document.getElementById("ppResLucro").textContent     = precoVenda>0 && custoUnid>0 ? f(lucroMes) : "—";
+  document.getElementById("ppResFilMes").textContent    = filMes.toFixed(2)+" kg";
+  document.getElementById("ppResults").style.display   = "block";
+
+  // Alerta
+  const alertEl = document.getElementById("ppAlert");
+  if(diasProd > 7 && impressorasNec <= 1){
+    alertEl.className = "pp-alert warn";
+    alertEl.innerHTML = `⚠️ <b>Atenção:</b> Para produzir ${meta} unidades/semana com 1 impressora, você precisa de ${horasSemana.toFixed(0)}h de impressão — mais do que ${Math.round(horasDia*7)}h disponíveis. Considere usar ${impressorasNec+1} impressoras ou reduzir a meta.`;
+    alertEl.style.display = "block";
+  } else if(lucroMes > 0 && fatMes > 0){
+    alertEl.className = "pp-alert good";
+    const roi = ((lucroMes/fatMes)*100).toFixed(1);
+    alertEl.innerHTML = `✅ <b>Cenário viável!</b> Com ${meta} unid/semana você obtém ROI de ${roi}% e lucro de ${f(lucroMes)}/mês, consumindo ${filMes.toFixed(2)}kg de filamento.`;
+    alertEl.style.display = "block";
+  } else {
+    alertEl.style.display = "none";
   }
 }
 
@@ -943,6 +1187,8 @@ window.onload = function(){
   carregarTabela();
   renderComparador();
   verificarLinkSync();
+  detectarViabilidade();   // ← NOVO
+  ppPopularSelect();        // ← NOVO
 };
 </script>
 </body>
